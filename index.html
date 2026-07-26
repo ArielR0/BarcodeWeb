@@ -1320,6 +1320,838 @@ body.print-mode .slot-menu {
   object-fit: contain;
   display: block;
 }
+
+/* ==========================================================================
+   SUPREME RESPONSIVE SYSTEM
+   MOBILE / TABLET / DESKTOP
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   TABLET — 901px até 1200px
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 1200px) {
+
+  aside {
+    width: 290px;
+    padding: 14px;
+  }
+
+  .canvas-wrap {
+    padding: 28px;
+  }
+
+  .toolbar {
+    padding: 0 12px;
+  }
+
+  .toolbar-left,
+  .toolbar-right {
+    gap: 5px;
+  }
+
+}
+
+
+/* --------------------------------------------------------------------------
+   TABLET PEQUENO — até 900px
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 900px) {
+
+  header.topbar {
+    padding: 0 12px;
+  }
+
+  .brand {
+    gap: 8px;
+  }
+
+  .brand-logo {
+    width: 30px;
+    height: 30px;
+  }
+
+  .brand-subtitle {
+    display: none;
+  }
+
+  .top-actions {
+    gap: 4px;
+  }
+
+  .top-actions button {
+    padding: 0 9px;
+  }
+
+  aside {
+    width: 270px;
+    padding: 12px;
+  }
+
+  .canvas-wrap {
+    padding: 20px;
+  }
+
+}
+
+
+/* ==========================================================================
+   MOBILE — ATÉ 700px
+   ========================================================================== */
+
+@media (max-width: 700px) {
+
+  /* ------------------------------------------------------------------------
+     BASE
+     ------------------------------------------------------------------------ */
+
+  html,
+  body {
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .app {
+    width: 100%;
+    height: 100dvh;
+    min-height: 0;
+
+    display: grid;
+    grid-template-rows: 52px 1fr;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     HEADER MOBILE
+     ------------------------------------------------------------------------ */
+
+  header.topbar {
+    height: 52px;
+
+    padding: 0 10px;
+
+    gap: 8px;
+  }
+
+  .brand {
+    min-width: 0;
+    flex: 1;
+
+    gap: 8px;
+  }
+
+  .brand-logo {
+    width: 29px;
+    height: 29px;
+    border-radius: 6px;
+  }
+
+  .brand-text {
+    min-width: 0;
+  }
+
+  .brand-title {
+    max-width: 150px;
+
+    overflow: hidden;
+
+    font-size: 12px;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .brand-subtitle {
+    display: none;
+  }
+
+  .top-actions {
+    flex-shrink: 0;
+  }
+
+  .top-actions button {
+    height: 31px;
+
+    padding: 0 8px;
+
+    font-size: 11px;
+  }
+
+  .top-actions button:not(.primary) {
+    display: none;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     BODY MOBILE
+     ------------------------------------------------------------------------ */
+
+  .body {
+    width: 100%;
+    min-height: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     SIDEBAR / CONFIGURAÇÕES MOBILE
+     ------------------------------------------------------------------------ */
+
+  aside {
+    width: 100%;
+    height: auto;
+    max-height: 42dvh;
+
+    flex-shrink: 0;
+
+    padding: 8px;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    border-right: none;
+    border-bottom: 1px solid var(--border-subtle);
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+  }
+
+  .meta {
+    padding: 2px 4px;
+
+    font-size: 8px;
+  }
+
+  .card {
+    border-radius: 7px;
+  }
+
+  .card-header {
+    min-height: 34px;
+
+    padding: 0 10px;
+
+    font-size: 10px;
+  }
+
+  .card-body {
+    padding: 9px;
+
+    gap: 8px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     DROPZONE MOBILE
+     ------------------------------------------------------------------------ */
+
+  .dropzone {
+    min-height: 72px;
+
+    padding: 10px;
+  }
+
+  .dropzone-icon {
+    width: 26px;
+    height: 26px;
+
+    margin-bottom: 4px;
+
+    font-size: 13px;
+  }
+
+  .dropzone-title {
+    font-size: 11px;
+  }
+
+  .dropzone-hint {
+    margin-top: 3px;
+
+    font-size: 9px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     FORM MOBILE
+     ------------------------------------------------------------------------ */
+
+  .field-label {
+    margin-bottom: 4px;
+
+    font-size: 10px;
+  }
+
+  .field-hint {
+    font-size: 9px;
+  }
+
+  input[type="number"],
+  input[type="text"] {
+    height: 36px;
+
+    font-size: 12px;
+  }
+
+  .grid2 {
+    grid-template-columns: 1fr 1fr;
+
+    gap: 6px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     LABEL LIBRARY MOBILE
+     ------------------------------------------------------------------------ */
+
+  .label-list {
+    gap: 5px;
+  }
+
+  .label-item {
+    min-height: 44px;
+
+    padding: 5px 7px;
+  }
+
+  .label-thumb {
+    width: 31px;
+    height: 31px;
+  }
+
+  .label-name {
+    font-size: 10px;
+  }
+
+  .label-type {
+    font-size: 8px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     MAIN WORKSPACE
+     ------------------------------------------------------------------------ */
+
+  .main {
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+
+    flex: 1;
+
+    overflow: hidden;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     TOOLBAR MOBILE
+     ------------------------------------------------------------------------ */
+
+  .toolbar {
+    width: 100%;
+    min-height: 48px;
+    height: auto;
+
+    padding: 6px 8px;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 6px;
+
+    overflow: hidden;
+  }
+
+  .toolbar-left,
+  .toolbar-right {
+    display: flex;
+    align-items: center;
+
+    gap: 4px;
+  }
+
+  .toolbar-left {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .toolbar-right {
+    flex-shrink: 0;
+  }
+
+  .toolbar button {
+    min-width: 32px;
+    height: 32px;
+
+    padding: 0 8px;
+
+    font-size: 10px;
+  }
+
+  .mode-toggle {
+    padding: 2px;
+  }
+
+  .mode-toggle button {
+    height: 28px;
+
+    padding: 0 8px;
+
+    font-size: 10px;
+  }
+
+  .stat {
+    display: none;
+  }
+
+  .zoom {
+    gap: 3px;
+  }
+
+  .zoom button {
+    width: 31px;
+    height: 31px;
+  }
+
+  .zoom-label {
+    width: 40px;
+
+    font-size: 9px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     CANVAS MOBILE
+     ------------------------------------------------------------------------ */
+
+  .canvas-wrap {
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+
+    flex: 1;
+
+    padding: 18px 12px 30px;
+
+    display: block;
+
+    overflow: auto;
+
+    -webkit-overflow-scrolling: touch;
+
+    scrollbar-width: thin;
+  }
+
+  .sheet-outer {
+    width: max-content;
+    min-width: 100%;
+
+    display: flex;
+    justify-content: center;
+
+    padding: 5px;
+  }
+
+  #sheet {
+    flex-shrink: 0;
+
+    transform-origin: top center;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     SLOTS — TOUCH
+     ------------------------------------------------------------------------ */
+
+  .slot {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .slot-number {
+    top: 4px;
+    left: 4px;
+
+    padding: 3px 5px;
+
+    font-size: 8px;
+  }
+
+  .slot-placeholder {
+    font-size: 14px;
+  }
+
+  .slot-placeholder small {
+    font-size: 7px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     SLOT MENU MOBILE
+     ------------------------------------------------------------------------ */
+
+  .slot-menu {
+    position: fixed;
+
+    top: auto;
+    left: 50%;
+
+    width: calc(100vw - 24px);
+    max-width: 320px;
+
+    transform: translateX(-50%);
+
+    z-index: 9999;
+  }
+
+  .slot-menu button {
+    height: 40px;
+
+    padding: 0 12px;
+
+    font-size: 12px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     PDF MODAL MOBILE
+     ------------------------------------------------------------------------ */
+
+  .modal-overlay {
+    padding: 10px;
+
+    align-items: stretch;
+  }
+
+  .modal {
+    width: 100%;
+    max-width: none;
+    max-height: 100%;
+
+    border-radius: 10px;
+  }
+
+  .modal-header {
+    min-height: 54px;
+
+    padding: 0 12px;
+  }
+
+  .modal-title {
+    font-size: 13px;
+  }
+
+  .modal-subtitle {
+    font-size: 10px;
+  }
+
+  .modal-body {
+    padding: 10px;
+  }
+
+  .pdf-pages {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 8px;
+  }
+
+  .pdf-page {
+    padding: 5px;
+  }
+
+  .pdf-page-footer {
+    padding: 6px 2px 2px;
+
+    font-size: 9px;
+  }
+
+  .modal-footer {
+    min-height: 58px;
+
+    padding: 0 10px;
+
+    gap: 8px;
+  }
+
+  .modal-footer-info {
+    font-size: 9px;
+  }
+
+  .modal-footer button {
+    height: 34px;
+
+    padding: 0 10px;
+  }
+
+
+  /* ------------------------------------------------------------------------
+     TOAST MOBILE
+     ------------------------------------------------------------------------ */
+
+  .toast-container {
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
+  }
+
+  .toast {
+    width: 100%;
+    max-width: none;
+
+    padding: 12px;
+
+    font-size: 11px;
+  }
+
+}
+
+
+/* ==========================================================================
+   CELULARES PEQUENOS — ATÉ 480px
+   ========================================================================== */
+
+@media (max-width: 480px) {
+
+  .app {
+    grid-template-rows: 50px 1fr;
+  }
+
+  header.topbar {
+    height: 50px;
+
+    padding: 0 8px;
+  }
+
+  .brand-logo {
+    width: 27px;
+    height: 27px;
+  }
+
+  .brand-title {
+    max-width: 120px;
+
+    font-size: 11px;
+  }
+
+  .top-actions button.primary {
+    height: 29px;
+
+    padding: 0 7px;
+
+    font-size: 10px;
+  }
+
+
+  /* Painel superior ainda mais compacto */
+
+  aside {
+    max-height: 38dvh;
+
+    padding: 6px;
+
+    gap: 5px;
+  }
+
+  .card-header {
+    min-height: 32px;
+
+    padding: 0 9px;
+  }
+
+  .card-body {
+    padding: 8px;
+
+    gap: 7px;
+  }
+
+
+  /* Inputs maiores para toque */
+
+  input[type="number"],
+  input[type="text"] {
+    height: 38px;
+  }
+
+
+  /* Toolbar */
+
+  .toolbar {
+    min-height: 46px;
+
+    padding: 5px 6px;
+  }
+
+  .toolbar button {
+    height: 31px;
+
+    padding: 0 7px;
+  }
+
+  .mode-toggle button {
+    padding: 0 7px;
+  }
+
+  .zoom-label {
+    width: 35px;
+  }
+
+
+  /* Canvas */
+
+  .canvas-wrap {
+    padding: 12px 8px 25px;
+  }
+
+
+  /* PDF */
+
+  .pdf-pages {
+    grid-template-columns: 1fr 1fr;
+
+    gap: 6px;
+  }
+
+}
+
+
+/* ==========================================================================
+   CELULARES MUITO PEQUENOS — ATÉ 360px
+   ========================================================================== */
+
+@media (max-width: 360px) {
+
+  .brand-title {
+    max-width: 90px;
+  }
+
+  .top-actions button.primary {
+    max-width: 80px;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  aside {
+    max-height: 35dvh;
+  }
+
+  .toolbar {
+    gap: 3px;
+  }
+
+  .mode-toggle button {
+    padding: 0 5px;
+  }
+
+  .zoom-label {
+    width: 30px;
+  }
+
+  .canvas-wrap {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+}
+
+
+/* ==========================================================================
+   TOUCH DEVICES
+   ========================================================================== */
+
+@media (hover: none) and (pointer: coarse) {
+
+  button {
+    min-height: 34px;
+  }
+
+  .label-item {
+    min-height: 50px;
+  }
+
+  .dropzone {
+    min-height: 90px;
+  }
+
+  .slot:hover {
+    background: inherit;
+    border-color: var(--border-strong);
+  }
+
+  button:hover {
+    background: inherit;
+    border-color: var(--border-subtle);
+  }
+
+  button.primary:hover {
+    background: var(--ink-primary);
+  }
+
+  button.accent:hover {
+    background: var(--accent-main);
+  }
+
+  .slot {
+    touch-action: manipulation;
+  }
+
+}
+
+
+/* ==========================================================================
+   SAFE AREA — IPHONE / CELULARES COM NOTCH
+   ========================================================================== */
+
+@supports (padding: env(safe-area-inset-bottom)) {
+
+  @media (max-width: 700px) {
+
+    header.topbar {
+      padding-top: env(safe-area-inset-top);
+      height: calc(52px + env(safe-area-inset-top));
+    }
+
+    .canvas-wrap {
+      padding-bottom:
+        calc(30px + env(safe-area-inset-bottom));
+    }
+
+    .toast-container {
+      bottom:
+        calc(10px + env(safe-area-inset-bottom));
+    }
+
+  }
+
+}
+
+
+/* ==========================================================================
+   REDUÇÃO DE MOVIMENTO
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+}
 </style>
 
 </head>
