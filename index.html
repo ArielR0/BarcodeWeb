@@ -18,7 +18,7 @@
 <style>
 /* ==========================================================================
    LABEL SHEET DESIGNER
-   PREMIUM LABEL WORKSPACE
+   PREMIUM LABEL WORKSPACE - FULL RESPONSIVE & NAV FIX
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
@@ -77,6 +77,7 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html,
@@ -85,95 +86,100 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-
   overflow: hidden;
-
   background: var(--canvas-bg);
   color: var(--ink-primary);
-
   font-family: var(--font-sans);
   font-size: 13px;
-
   -webkit-font-smoothing: antialiased;
+  overscroll-behavior: none;
 }
 
 /* ==========================================================================
-   APP
+   APP STRUCTURE
    ========================================================================== */
 
 .app {
   height: 100vh;
-
-  display: grid;
-  grid-template-rows: 56px 1fr;
-
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
   background: var(--canvas-bg);
+  overflow: hidden;
 }
 
 /* ==========================================================================
-   HEADER
+   HEADER / NAV
    ========================================================================== */
 
 header.topbar {
   height: 56px;
-
+  min-height: 56px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  padding: 0 18px;
-
+  padding: 0 16px;
   background: var(--header-bg);
-
   border-bottom: 1px solid var(--border-subtle);
-
   z-index: 50;
+  flex-shrink: 0;
+  gap: 12px;
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 11px;
+  gap: 10px;
+  min-width: 0; /* Permite encolher sem quebrar */
 }
 
 .brand-logo {
-  width: 28px;
-  height: 28px;
-
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: transparent;
+}
 
-  border-radius: 7px;
-
-  background: var(--ink-primary);
-  color: white;
-
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 600;
+.brand-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
 .brand-text {
   display: flex;
   flex-direction: column;
   gap: 1px;
+  min-width: 0;
 }
 
 .brand-title {
   font-size: 13px;
   font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .brand-subtitle {
   font-size: 10px;
   color: var(--ink-tertiary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .top-actions {
   display: flex;
   align-items: center;
   gap: 6px;
+  flex-shrink: 0;
 }
 
 /* ==========================================================================
@@ -182,26 +188,21 @@ header.topbar {
 
 button {
   height: 32px;
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-
   padding: 0 12px;
-
   border: 1px solid var(--border-subtle);
   border-radius: 7px;
-
   background: white;
   color: var(--ink-primary);
-
   font-family: var(--font-sans);
   font-size: 12px;
   font-weight: 500;
-
   cursor: pointer;
-
+  white-space: nowrap;
+  touch-action: manipulation;
   transition:
     background var(--transition),
     border-color var(--transition),
@@ -260,44 +261,34 @@ button:disabled {
 }
 
 /* ==========================================================================
-   BODY
+   BODY & SIDEBAR
    ========================================================================== */
 
 .body {
+  flex: 1;
   min-height: 0;
-
   display: flex;
+  overflow: hidden;
 }
 
-/* ==========================================================================
-   SIDEBAR
-   ========================================================================== */
-
 aside {
-  width: 330px;
+  width: 320px;
   flex-shrink: 0;
-
   padding: 16px;
-
   overflow-y: auto;
-
   background: var(--sidebar-bg);
-
   border-right: 1px solid var(--border-subtle);
-
   display: flex;
   flex-direction: column;
   gap: 12px;
+  -webkit-overflow-scrolling: touch;
 }
 
 .meta {
   padding: 0 3px;
-
   color: var(--ink-tertiary);
-
   font-family: var(--font-mono);
   font-size: 10px;
-
   text-transform: uppercase;
   letter-spacing: .05em;
 }
@@ -308,38 +299,29 @@ aside {
 
 .card {
   overflow: hidden;
-
   background: var(--panel-bg);
-
   border: 1px solid var(--border-subtle);
   border-radius: 9px;
+  flex-shrink: 0;
 }
 
 .card-header {
   min-height: 38px;
-
   padding: 0 12px;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   background: #fafaf9;
-
   border-bottom: 1px solid var(--border-subtle);
-
   color: var(--ink-secondary);
-
   font-size: 11px;
   font-weight: 600;
-
   text-transform: uppercase;
   letter-spacing: .04em;
 }
 
 .card-body {
   padding: 12px;
-
   display: flex;
   flex-direction: column;
   gap: 11px;
@@ -350,24 +332,17 @@ aside {
    ========================================================================== */
 
 .dropzone {
-  min-height: 104px;
-
-  padding: 16px;
-
+  min-height: 96px;
+  padding: 14px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
   text-align: center;
-
   border: 1px dashed var(--border-strong);
   border-radius: 8px;
-
   background: #fafafa;
-
   cursor: pointer;
-
   transition: all var(--transition);
 }
 
@@ -382,20 +357,15 @@ aside {
 }
 
 .dropzone-icon {
-  width: 32px;
-  height: 32px;
-
-  margin-bottom: 7px;
-
+  width: 30px;
+  height: 30px;
+  margin-bottom: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  border-radius: 8px;
-
+  border-radius: 7px;
   background: #eeeeec;
-
-  font-size: 15px;
+  font-size: 14px;
 }
 
 .dropzone-title {
@@ -404,12 +374,10 @@ aside {
 }
 
 .dropzone-hint {
-  margin-top: 5px;
-
+  margin-top: 4px;
   color: var(--ink-tertiary);
-
   font-size: 10px;
-  line-height: 1.4;
+  line-height: 1.3;
 }
 
 /* ==========================================================================
@@ -420,13 +388,11 @@ aside {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   margin-bottom: 3px;
 }
 
 .library-count {
   color: var(--ink-tertiary);
-
   font-family: var(--font-mono);
   font-size: 10px;
 }
@@ -438,57 +404,42 @@ aside {
 }
 
 .empty-library {
-  padding: 16px 8px;
-
+  padding: 14px 8px;
   text-align: center;
-
   color: var(--ink-tertiary);
-
   font-size: 11px;
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
 .label-item {
-  min-height: 48px;
-
+  min-height: 44px;
   padding: 6px 8px;
-
   display: flex;
   align-items: center;
   gap: 8px;
-
   background: white;
-
   border: 1px solid var(--border-subtle);
   border-radius: 7px;
-
   cursor: pointer;
-
   transition: all var(--transition);
 }
 
 .label-item:hover {
   border-color: var(--border-strong);
-  transform: translateY(-1px);
 }
 
 .label-item.selected {
   border-color: var(--accent-border);
   background: var(--accent-subtle);
-  box-shadow: 0 0 0 1px rgba(28,100,66,.08);
 }
 
 .label-thumb {
-  width: 34px;
-  height: 34px;
-
+  width: 32px;
+  height: 32px;
   flex-shrink: 0;
-
   object-fit: contain;
-
   border: 1px solid var(--border-subtle);
   border-radius: 5px;
-
   background: white;
 }
 
@@ -499,33 +450,25 @@ aside {
 
 .label-name {
   overflow: hidden;
-
   color: var(--ink-primary);
-
   font-size: 11px;
   font-weight: 500;
-
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .label-type {
-  margin-top: 3px;
-
+  margin-top: 2px;
   color: var(--ink-tertiary);
-
   font-family: var(--font-mono);
   font-size: 9px;
 }
 
 .label-remove {
-  width: 25px;
-  height: 25px;
-
+  width: 24px;
+  height: 24px;
   padding: 0;
-
   color: var(--ink-tertiary);
-
   border: none;
   background: transparent;
 }
@@ -536,7 +479,7 @@ aside {
 }
 
 /* ==========================================================================
-   FORM
+   FORM & CONTROLS
    ========================================================================== */
 
 .field {
@@ -545,45 +488,32 @@ aside {
 
 .field-label {
   display: block;
-
-  margin-bottom: 6px;
-
+  margin-bottom: 5px;
   color: var(--ink-secondary);
-
   font-size: 11px;
   font-weight: 500;
 }
 
 .field-hint {
   display: block;
-
-  margin-top: 5px;
-
+  margin-top: 4px;
   color: var(--ink-tertiary);
-
   font-size: 10px;
-  line-height: 1.4;
+  line-height: 1.3;
 }
 
 input[type="number"],
 input[type="text"] {
   width: 100%;
-  height: 33px;
-
+  height: 34px;
   padding: 0 10px;
-
   border: 1px solid var(--border-subtle);
   border-radius: 7px;
-
   background: white;
-
   color: var(--ink-primary);
-
   font-family: var(--font-mono);
-  font-size: 12px;
-
+  font-size: 13px;
   outline: none;
-
   transition: all var(--transition);
 }
 
@@ -599,10 +529,6 @@ input[type="text"]:focus {
   gap: 8px;
 }
 
-/* ==========================================================================
-   FIT CHOICE
-   ========================================================================== */
-
 .fit-choice {
   display: flex;
   flex-direction: column;
@@ -611,144 +537,111 @@ input[type="text"]:focus {
 
 .fit-choice button {
   justify-content: flex-start;
-
-  height: 29px;
-
+  height: 30px;
   font-size: 11px;
   font-weight: 400;
 }
 
 .fit-choice button.selected {
   color: var(--accent-main);
-
   border-color: var(--accent-border);
-
   background: var(--accent-subtle);
-
   font-weight: 500;
 }
-
-/* ==========================================================================
-   NUDGE
-   ========================================================================== */
 
 .nudge {
   display: grid;
   grid-template-columns: repeat(3, 30px);
-
   gap: 4px;
-
   justify-content: center;
 }
 
 .nudge button {
   width: 30px;
   height: 30px;
-
   padding: 0;
 }
 
 /* ==========================================================================
-   MAIN WORKSPACE
+   MAIN WORKSPACE & TOOLBAR
    ========================================================================== */
 
 .main {
   min-width: 0;
   flex: 1;
-
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
-
-/* ==========================================================================
-   TOOLBAR
-   ========================================================================== */
 
 .toolbar {
   height: 44px;
-
+  min-height: 44px;
   flex-shrink: 0;
-
-  padding: 0 16px;
-
+  padding: 0 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   background: white;
-
   border-bottom: 1px solid var(--border-subtle);
+  gap: 8px;
 }
 
 .toolbar-left,
 .toolbar-right {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .mode-toggle {
   padding: 2px;
-
   display: flex;
   gap: 2px;
-
   background: #f4f4f2;
-
   border: 1px solid var(--border-subtle);
   border-radius: 7px;
 }
 
 .mode-toggle button {
   height: 26px;
-
-  padding: 0 10px;
-
+  padding: 0 8px;
   border: none;
   border-radius: 5px;
-
   background: transparent;
-
   color: var(--ink-secondary);
-
   font-size: 11px;
 }
 
 .mode-toggle button.active {
   background: white;
-
   color: var(--ink-primary);
-
   box-shadow: 0 1px 3px rgba(0,0,0,.08);
 }
 
 .stat {
   color: var(--ink-tertiary);
-
   font-family: var(--font-mono);
   font-size: 10px;
+  white-space: nowrap;
 }
 
 .zoom {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
 }
 
 .zoom button {
   width: 28px;
   height: 27px;
-
   padding: 0;
 }
 
 .zoom-label {
-  width: 45px;
-
+  width: 40px;
   text-align: center;
-
   color: var(--ink-secondary);
-
   font-family: var(--font-mono);
   font-size: 10px;
 }
@@ -759,17 +652,14 @@ input[type="text"]:focus {
 
 .canvas-wrap {
   flex: 1;
-
+  min-height: 0;
   overflow: auto;
-
-  padding: 40px;
-
+  padding: 30px;
   display: flex;
   align-items: flex-start;
   justify-content: center;
-
-  background:
-    radial-gradient(circle at center, #eeeeec 0, #e8e8e6 100%);
+  background: radial-gradient(circle at center, #eeeeec 0, #e8e8e6 100%);
+  -webkit-overflow-scrolling: touch;
 }
 
 .sheet-outer {
@@ -779,30 +669,22 @@ input[type="text"]:focus {
 
 #sheet {
   position: relative;
-
   background: white;
-
   transform-origin: top center;
-
   box-shadow: var(--shadow-paper);
 }
 
 /* ==========================================================================
-   SLOTS
+   SLOTS & SLOT MENU
    ========================================================================== */
 
 .slot {
   position: absolute;
-
   overflow: visible;
-
   background: rgba(255,255,255,.55);
-
   border: 1px dashed var(--border-strong);
   border-radius: 2px;
-
   cursor: pointer;
-
   transition:
     border-color var(--transition),
     background var(--transition),
@@ -828,7 +710,6 @@ input[type="text"]:focus {
 .slot.dragover {
   background: var(--accent-subtle);
   border-color: var(--accent-main);
-
   outline: 2px dashed var(--accent-main);
 }
 
@@ -839,109 +720,73 @@ input[type="text"]:focus {
 
 .slot-number {
   position: absolute;
-
   top: 3px;
   left: 3px;
-
   z-index: 5;
-
   padding: 2px 4px;
-
   border-radius: 3px;
-
   background: rgba(255,255,255,.88);
-
   color: var(--ink-tertiary);
-
   font-family: var(--font-mono);
   font-size: 8px;
-
   pointer-events: none;
 }
 
 .slot-placeholder {
   position: absolute;
   inset: 0;
-
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
   color: var(--ink-tertiary);
-
   font-size: 15px;
-
   pointer-events: none;
 }
 
 .slot-placeholder small {
   margin-top: 3px;
-
   font-family: var(--font-mono);
   font-size: 8px;
 }
 
 .label-img {
   position: absolute;
-
   pointer-events: none;
   user-select: none;
 }
 
 .warning {
   position: absolute;
-
   top: 3px;
   right: 3px;
-
   z-index: 6;
-
   padding: 2px 4px;
-
   border-radius: 3px;
-
   background: var(--danger-bg);
-
   color: var(--danger);
-
   font-size: 9px;
 }
 
-/* ==========================================================================
-   SLOT MENU
-   ========================================================================== */
-
 .slot-menu {
   position: absolute;
-
   top: calc(100% + 5px);
   left: 0;
-
   z-index: 1000;
-
   width: 155px;
-
   padding: 4px;
-
   background: white;
-
   border: 1px solid var(--border-subtle);
   border-radius: 8px;
-
   box-shadow: var(--shadow-dropdown);
 }
 
 .slot-menu button {
   width: 100%;
   height: 29px;
-
   justify-content: flex-start;
-
   border: none;
-
   background: transparent;
-
   font-size: 11px;
 }
 
@@ -958,23 +803,18 @@ input[type="text"]:focus {
 }
 
 /* ==========================================================================
-   PDF MODAL
+   MODAL
    ========================================================================== */
 
 .modal-overlay {
   position: fixed;
   inset: 0;
-
   z-index: 5000;
-
   display: none;
   align-items: center;
   justify-content: center;
-
-  padding: 30px;
-
+  padding: 16px;
   background: rgba(15,16,18,.48);
-
   backdrop-filter: blur(5px);
 }
 
@@ -983,34 +823,27 @@ input[type="text"]:focus {
 }
 
 .modal {
-  width: min(900px, 100%);
-  max-height: min(720px, 90vh);
-
+  width: min(850px, 100%);
+  height: 80vh;
+  height: 80dvh;
   display: flex;
   flex-direction: column;
-
-  overflow: hidden;
-
   background: white;
-
   border: 1px solid rgba(0,0,0,.08);
   border-radius: 12px;
-
-  box-shadow:
-    0 30px 80px rgba(0,0,0,.25),
-    0 5px 20px rgba(0,0,0,.12);
+  box-shadow: var(--shadow-dropdown);
+  overflow: hidden;
 }
 
 .modal-header {
-  min-height: 60px;
-
-  padding: 0 18px;
-
+  height: 52px;
+  min-height: 52px;
+  padding: 0 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   border-bottom: 1px solid var(--border-subtle);
+  flex-shrink: 0;
 }
 
 .modal-title {
@@ -1019,108 +852,81 @@ input[type="text"]:focus {
 }
 
 .modal-subtitle {
-  margin-top: 3px;
-
+  margin-top: 2px;
   color: var(--ink-tertiary);
-
   font-size: 11px;
 }
 
 .modal-close {
   width: 32px;
   height: 32px;
-
   padding: 0;
-
   border: none;
   background: transparent;
-
   font-size: 18px;
 }
 
 .modal-body {
   flex: 1;
-
-  overflow: auto;
-
-  padding: 18px;
+  min-height: 0;
+  padding: 16px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .pdf-pages {
   display: grid;
-
-  grid-template-columns:
-    repeat(auto-fill, minmax(150px, 1fr));
-
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
   gap: 12px;
+  width: 100%;
 }
 
 .pdf-page {
   position: relative;
-
-  padding: 7px;
-
+  padding: 6px;
   background: #fafafa;
-
   border: 1px solid var(--border-subtle);
   border-radius: 8px;
-
   cursor: pointer;
-
   transition: all var(--transition);
 }
 
 .pdf-page:hover {
   border-color: var(--border-strong);
-  transform: translateY(-1px);
 }
 
 .pdf-page.selected {
   border-color: var(--accent-main);
-
   background: var(--accent-subtle);
-
-  box-shadow: 0 0 0 2px rgba(28,100,66,.12);
 }
 
 .pdf-page canvas {
   display: block;
-
   width: 100%;
   height: auto;
-
   background: white;
-
   border: 1px solid #e5e5e5;
 }
 
 .pdf-page-footer {
-  padding: 8px 2px 2px;
-
+  padding: 6px 2px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   color: var(--ink-secondary);
-
   font-size: 10px;
 }
 
 .pdf-check {
-  width: 17px;
-  height: 17px;
-
+  width: 16px;
+  height: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-
   border-radius: 50%;
-
   background: #e6e6e4;
-
   color: transparent;
-
-  font-size: 10px;
+  font-size: 9px;
 }
 
 .pdf-page.selected .pdf-check {
@@ -1129,20 +935,18 @@ input[type="text"]:focus {
 }
 
 .modal-footer {
-  min-height: 62px;
-
-  padding: 0 18px;
-
+  min-height: 56px;
+  padding: 0 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   border-top: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+  background: white;
 }
 
 .modal-footer-info {
   color: var(--ink-tertiary);
-
   font-size: 11px;
 }
 
@@ -1152,56 +956,35 @@ input[type="text"]:focus {
 
 .toast-container {
   position: fixed;
-
-  right: 18px;
-  bottom: 18px;
-
+  right: 16px;
+  bottom: 16px;
   z-index: 9000;
-
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 6px;
 }
 
 .toast {
-  max-width: 340px;
-
-  padding: 11px 14px;
-
+  max-width: 320px;
+  padding: 10px 12px;
   background: #17181a;
   color: white;
-
   border-radius: 8px;
-
   box-shadow: 0 10px 30px rgba(0,0,0,.18);
-
   font-size: 11px;
-
   animation: toastIn .2s ease-out;
 }
 
-.toast.success {
-  background: var(--accent-main);
-}
-
-.toast.error {
-  background: var(--danger);
-}
+.toast.success { background: var(--accent-main); }
+.toast.error { background: var(--danger); }
 
 @keyframes toastIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ==========================================================================
-   PRINT
+   PRINT MODE
    ========================================================================== */
 
 body.print-mode .slot {
@@ -1218,14 +1001,12 @@ body.print-mode .slot-menu {
 }
 
 @media print {
-
   @page {
     size: A4;
     margin: 0;
   }
 
-  html,
-  body {
+  html, body {
     width: 210mm;
     height: 297mm;
     overflow: hidden;
@@ -1236,620 +1017,131 @@ body.print-mode .slot-menu {
     visibility: hidden !important;
   }
 
-  #sheet,
-  #sheet * {
+  #sheet, #sheet * {
     visibility: visible !important;
   }
 
   #sheet {
     position: fixed !important;
-
     top: 0 !important;
     left: 0 !important;
-
     width: 210mm !important;
     height: 297mm !important;
-
     transform: none !important;
-
     box-shadow: none !important;
   }
 }
 
 /* ==========================================================================
-   RESPONSIVE
+   RESPONSIVO (TABLETS E TELAS MÉDIAS)
    ========================================================================== */
 
-@media (max-width: 900px) {
-
+@media (max-width: 850px) {
   aside {
-    width: 280px;
+    width: 260px;
   }
 
-  .top-actions button:not(.primary) {
-    display: none;
-  }
-
-  .canvas-wrap {
-    padding: 25px;
-  }
-}
-
-@media (max-width: 700px) {
-
-  html,
-  body {
-    overflow: auto;
-  }
-
-  .app {
-    height: auto;
-    min-height: 100vh;
-  }
-
-  .body {
-    flex-direction: column;
-  }
-
-  aside {
-    width: 100%;
-    max-height: 45vh;
-  }
-
-  .main {
-    min-height: 650px;
-  }
-}
-
-
-.brand-logo {
-  width: 30px;
-  height: 30px;
-  border-radius: 7px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  flex-shrink: 0;
-  background: transparent;
-}
-
-.brand-logo img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
-}
-
-/* ==========================================================================
-   SUPREME RESPONSIVE SYSTEM
-   MOBILE / TABLET / DESKTOP
-   ========================================================================== */
-
-/* --------------------------------------------------------------------------
-   TABLET — 901px até 1200px
-   -------------------------------------------------------------------------- */
-
-@media (max-width: 1200px) {
-
-  aside {
-    width: 290px;
-    padding: 14px;
-  }
-
-  .canvas-wrap {
-    padding: 28px;
-  }
-
-  .toolbar {
-    padding: 0 12px;
-  }
-
-  .toolbar-left,
-  .toolbar-right {
-    gap: 5px;
-  }
-
-}
-
-
-/* --------------------------------------------------------------------------
-   TABLET PEQUENO — até 900px
-   -------------------------------------------------------------------------- */
-
-@media (max-width: 900px) {
-
-  header.topbar {
-    padding: 0 12px;
-  }
-
-  .brand {
-    gap: 8px;
-  }
-
-  .brand-logo {
-    width: 30px;
-    height: 30px;
-  }
-
-  .brand-subtitle {
-    display: none;
-  }
-
-  .top-actions {
-    gap: 4px;
-  }
-
-  .top-actions button {
-    padding: 0 9px;
-  }
-
-  aside {
-    width: 270px;
-    padding: 12px;
+  .top-actions button.ghost {
+    display: none; /* Esconde botões secundários no nav para não estourar */
   }
 
   .canvas-wrap {
     padding: 20px;
   }
-
 }
 
-
 /* ==========================================================================
-   MOBILE — ATÉ 700px
+   RESPONSIVO (DISPOSITIVOS MÓVEIS / TELAS PEQUENAS)
    ========================================================================== */
 
 @media (max-width: 700px) {
-
-  /* ------------------------------------------------------------------------
-     BASE
-     ------------------------------------------------------------------------ */
-
-  html,
-  body {
-    width: 100%;
-    min-width: 0;
-    height: 100%;
-    overflow: hidden;
-  }
-
-  .app {
-    width: 100%;
-    height: 100dvh;
-    min-height: 0;
-
-    display: grid;
-    grid-template-rows: 52px 1fr;
-  }
-
-
-  /* ------------------------------------------------------------------------
-     HEADER MOBILE
-     ------------------------------------------------------------------------ */
-
   header.topbar {
-    height: 52px;
-
+    height: 48px;
+    min-height: 48px;
     padding: 0 10px;
-
-    gap: 8px;
-  }
-
-  .brand {
-    min-width: 0;
-    flex: 1;
-
-    gap: 8px;
-  }
-
-  .brand-logo {
-    width: 29px;
-    height: 29px;
-    border-radius: 6px;
-  }
-
-  .brand-text {
-    min-width: 0;
   }
 
   .brand-title {
-    max-width: 150px;
-
-    overflow: hidden;
-
     font-size: 12px;
-
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    max-width: 110px;
   }
 
   .brand-subtitle {
     display: none;
   }
 
+  /* Botões do Nav no mobile */
   .top-actions {
-    flex-shrink: 0;
-  }
-
-  .top-actions button {
-    height: 31px;
-
-    padding: 0 8px;
-
-    font-size: 11px;
-  }
-
-  .top-actions button:not(.primary) {
-    display: none;
-  }
-
-
-  /* ------------------------------------------------------------------------
-     BODY MOBILE
-     ------------------------------------------------------------------------ */
-
-  .body {
-    width: 100%;
-    min-height: 0;
-
-    display: flex;
-    flex-direction: column;
-
-    overflow: hidden;
-  }
-
-
-  /* ------------------------------------------------------------------------
-     SIDEBAR / CONFIGURAÇÕES MOBILE
-     ------------------------------------------------------------------------ */
-
-  aside {
-    width: 100%;
-    height: auto;
-    max-height: 42dvh;
-
-    flex-shrink: 0;
-
-    padding: 8px;
-
-    overflow-x: hidden;
-    overflow-y: auto;
-
-    border-right: none;
-    border-bottom: 1px solid var(--border-subtle);
-
-    display: flex;
-    flex-direction: column;
-
-    gap: 7px;
-  }
-
-  .meta {
-    padding: 2px 4px;
-
-    font-size: 8px;
-  }
-
-  .card {
-    border-radius: 7px;
-  }
-
-  .card-header {
-    min-height: 34px;
-
-    padding: 0 10px;
-
-    font-size: 10px;
-  }
-
-  .card-body {
-    padding: 9px;
-
-    gap: 8px;
-  }
-
-
-  /* ------------------------------------------------------------------------
-     DROPZONE MOBILE
-     ------------------------------------------------------------------------ */
-
-  .dropzone {
-    min-height: 72px;
-
-    padding: 10px;
-  }
-
-  .dropzone-icon {
-    width: 26px;
-    height: 26px;
-
-    margin-bottom: 4px;
-
-    font-size: 13px;
-  }
-
-  .dropzone-title {
-    font-size: 11px;
-  }
-
-  .dropzone-hint {
-    margin-top: 3px;
-
-    font-size: 9px;
-  }
-
-
-  /* ------------------------------------------------------------------------
-     FORM MOBILE
-     ------------------------------------------------------------------------ */
-
-  .field-label {
-    margin-bottom: 4px;
-
-    font-size: 10px;
-  }
-
-  .field-hint {
-    font-size: 9px;
-  }
-
-  input[type="number"],
-  input[type="text"] {
-    height: 36px;
-
-    font-size: 12px;
-  }
-
-  .grid2 {
-    grid-template-columns: 1fr 1fr;
-
-    gap: 6px;
-  }
-
-
-  /* ------------------------------------------------------------------------
-     LABEL LIBRARY MOBILE
-     ------------------------------------------------------------------------ */
-
-  .label-list {
-    gap: 5px;
-  }
-
-  .label-item {
-    min-height: 44px;
-
-    padding: 5px 7px;
-  }
-
-  .label-thumb {
-    width: 31px;
-    height: 31px;
-  }
-
-  .label-name {
-    font-size: 10px;
-  }
-
-  .label-type {
-    font-size: 8px;
-  }
-
-
-  /* ------------------------------------------------------------------------
-     MAIN WORKSPACE
-     ------------------------------------------------------------------------ */
-
-  .main {
-    width: 100%;
-    min-width: 0;
-    min-height: 0;
-
-    flex: 1;
-
-    overflow: hidden;
-  }
-
-
-  /* ------------------------------------------------------------------------
-     TOOLBAR MOBILE
-     ------------------------------------------------------------------------ */
-
-  .toolbar {
-    width: 100%;
-    min-height: 48px;
-    height: auto;
-
-    padding: 6px 8px;
-
-    display: flex;
-    flex-wrap: wrap;
-
-    gap: 6px;
-
-    overflow: hidden;
-  }
-
-  .toolbar-left,
-  .toolbar-right {
-    display: flex;
-    align-items: center;
-
     gap: 4px;
   }
 
-  .toolbar-left {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .toolbar-right {
-    flex-shrink: 0;
-  }
-
-  .toolbar button {
-    min-width: 32px;
-    height: 32px;
-
-    padding: 0 8px;
-
-    font-size: 10px;
-  }
-
-  .mode-toggle {
-    padding: 2px;
-  }
-
-  .mode-toggle button {
+  .top-actions button {
     height: 28px;
-
     padding: 0 8px;
+    font-size: 11px;
+  }
 
-    font-size: 10px;
+  .top-actions button.ghost {
+    display: none;
+  }
+
+  /* Reorganização Vertical */
+  .body {
+    flex-direction: column;
+  }
+
+  aside {
+    width: 100%;
+    max-height: 38dvh; /* Garante que a barra lateral não tape o canvas */
+    border-right: none;
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 10px;
+  }
+
+  .main {
+    flex: 1;
+    height: 62dvh;
+  }
+
+  .toolbar {
+    height: 38px;
+    min-height: 38px;
+    padding: 0 8px;
+    overflow-x: auto;
+  }
+
+  .toolbar::-webkit-scrollbar {
+    display: none;
   }
 
   .stat {
     display: none;
   }
 
-  .zoom {
-    gap: 3px;
-  }
-
-  .zoom button {
-    width: 31px;
-    height: 31px;
-  }
-
-  .zoom-label {
-    width: 40px;
-
-    font-size: 9px;
-  }
-
-
-  /* ------------------------------------------------------------------------
-     CANVAS MOBILE
-     ------------------------------------------------------------------------ */
-
   .canvas-wrap {
-    width: 100%;
-    min-width: 0;
-    min-height: 0;
-
-    flex: 1;
-
-    padding: 18px 12px 30px;
-
-    display: block;
-
-    overflow: auto;
-
-    -webkit-overflow-scrolling: touch;
-
-    scrollbar-width: thin;
-  }
-
-  .sheet-outer {
-    width: max-content;
-    min-width: 100%;
-
-    display: flex;
-    justify-content: center;
-
-    padding: 5px;
-  }
-
-  #sheet {
-    flex-shrink: 0;
-
-    transform-origin: top center;
-  }
-
-
-  /* ------------------------------------------------------------------------
-     SLOTS — TOUCH
-     ------------------------------------------------------------------------ */
-
-  .slot {
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .slot-number {
-    top: 4px;
-    left: 4px;
-
-    padding: 3px 5px;
-
-    font-size: 8px;
-  }
-
-  .slot-placeholder {
-    font-size: 14px;
-  }
-
-  .slot-placeholder small {
-    font-size: 7px;
-  }
-
-
-  /* ------------------------------------------------------------------------
-     SLOT MENU MOBILE
-     ------------------------------------------------------------------------ */
-
-  .slot-menu {
-    position: fixed;
-
-    top: auto;
-    left: 50%;
-
-    width: calc(100vw - 24px);
-    max-width: 320px;
-
-    transform: translateX(-50%);
-
-    z-index: 9999;
-  }
-
-  .slot-menu button {
-    height: 40px;
-
-    padding: 0 12px;
-
-    font-size: 12px;
-  }
-
-
-  /* ------------------------------------------------------------------------
-     PDF MODAL MOBILE
-     ------------------------------------------------------------------------ */
-
-  .modal-overlay {
     padding: 10px;
+  }
 
-    align-items: stretch;
+  /* Tamanho de fonte padrão para mobile para evitar zoom in de input no iOS */
+  input[type="number"],
+  input[type="text"] {
+    font-size: 16px;
+  }
+
+  /* Modal Ajustado para Telas Pequenas */
+  .modal-overlay {
+    padding: 8px;
   }
 
   .modal {
-    width: 100%;
-    max-width: none;
-    max-height: 100%;
-
-    border-radius: 10px;
+    height: 92dvh;
+    max-height: 92dvh;
   }
 
   .modal-header {
-    min-height: 54px;
-
-    padding: 0 12px;
-  }
-
-  .modal-title {
-    font-size: 13px;
-  }
-
-  .modal-subtitle {
-    font-size: 10px;
+    height: 44px;
+    min-height: 44px;
+    padding: 0 10px;
   }
 
   .modal-body {
@@ -1857,301 +1149,33 @@ body.print-mode .slot-menu {
   }
 
   .pdf-pages {
-    grid-template-columns:
-      repeat(2, minmax(0, 1fr));
-
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
-  }
-
-  .pdf-page {
-    padding: 5px;
-  }
-
-  .pdf-page-footer {
-    padding: 6px 2px 2px;
-
-    font-size: 9px;
   }
 
   .modal-footer {
-    min-height: 58px;
-
-    padding: 0 10px;
-
-    gap: 8px;
-  }
-
-  .modal-footer-info {
-    font-size: 9px;
-  }
-
-  .modal-footer button {
-    height: 34px;
-
-    padding: 0 10px;
-  }
-
-
-  /* ------------------------------------------------------------------------
-     TOAST MOBILE
-     ------------------------------------------------------------------------ */
-
-  .toast-container {
-    right: 10px;
-    bottom: 10px;
-    left: 10px;
-  }
-
-  .toast {
-    width: 100%;
-    max-width: none;
-
-    padding: 12px;
-
-    font-size: 11px;
-  }
-
-}
-
-
-/* ==========================================================================
-   CELULARES PEQUENOS — ATÉ 480px
-   ========================================================================== */
-
-@media (max-width: 480px) {
-
-  .app {
-    grid-template-rows: 50px 1fr;
-  }
-
-  header.topbar {
-    height: 50px;
-
-    padding: 0 8px;
-  }
-
-  .brand-logo {
-    width: 27px;
-    height: 27px;
-  }
-
-  .brand-title {
-    max-width: 120px;
-
-    font-size: 11px;
-  }
-
-  .top-actions button.primary {
-    height: 29px;
-
-    padding: 0 7px;
-
-    font-size: 10px;
-  }
-
-
-  /* Painel superior ainda mais compacto */
-
-  aside {
-    max-height: 38dvh;
-
-    padding: 6px;
-
-    gap: 5px;
-  }
-
-  .card-header {
-    min-height: 32px;
-
-    padding: 0 9px;
-  }
-
-  .card-body {
-    padding: 8px;
-
-    gap: 7px;
-  }
-
-
-  /* Inputs maiores para toque */
-
-  input[type="number"],
-  input[type="text"] {
-    height: 38px;
-  }
-
-
-  /* Toolbar */
-
-  .toolbar {
-    min-height: 46px;
-
-    padding: 5px 6px;
-  }
-
-  .toolbar button {
-    height: 31px;
-
-    padding: 0 7px;
-  }
-
-  .mode-toggle button {
-    padding: 0 7px;
-  }
-
-  .zoom-label {
-    width: 35px;
-  }
-
-
-  /* Canvas */
-
-  .canvas-wrap {
-    padding: 12px 8px 25px;
-  }
-
-
-  /* PDF */
-
-  .pdf-pages {
-    grid-template-columns: 1fr 1fr;
-
+    min-height: 50px;
+    padding: 6px 10px;
+    flex-wrap: wrap;
     gap: 6px;
   }
 
+  .modal-footer-info {
+    width: 100%;
+    font-size: 10px;
+  }
+
+  .toast-container {
+    right: 10px;
+    left: 10px;
+    bottom: 10px;
+  }
+
+  .toast {
+    max-width: none;
+  }
 }
 
-
-/* ==========================================================================
-   CELULARES MUITO PEQUENOS — ATÉ 360px
-   ========================================================================== */
-
-@media (max-width: 360px) {
-
-  .brand-title {
-    max-width: 90px;
-  }
-
-  .top-actions button.primary {
-    max-width: 80px;
-
-    overflow: hidden;
-
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  aside {
-    max-height: 35dvh;
-  }
-
-  .toolbar {
-    gap: 3px;
-  }
-
-  .mode-toggle button {
-    padding: 0 5px;
-  }
-
-  .zoom-label {
-    width: 30px;
-  }
-
-  .canvas-wrap {
-    padding-left: 5px;
-    padding-right: 5px;
-  }
-
-}
-
-
-/* ==========================================================================
-   TOUCH DEVICES
-   ========================================================================== */
-
-@media (hover: none) and (pointer: coarse) {
-
-  button {
-    min-height: 34px;
-  }
-
-  .label-item {
-    min-height: 50px;
-  }
-
-  .dropzone {
-    min-height: 90px;
-  }
-
-  .slot:hover {
-    background: inherit;
-    border-color: var(--border-strong);
-  }
-
-  button:hover {
-    background: inherit;
-    border-color: var(--border-subtle);
-  }
-
-  button.primary:hover {
-    background: var(--ink-primary);
-  }
-
-  button.accent:hover {
-    background: var(--accent-main);
-  }
-
-  .slot {
-    touch-action: manipulation;
-  }
-
-}
-
-
-/* ==========================================================================
-   SAFE AREA — IPHONE / CELULARES COM NOTCH
-   ========================================================================== */
-
-@supports (padding: env(safe-area-inset-bottom)) {
-
-  @media (max-width: 700px) {
-
-    header.topbar {
-      padding-top: env(safe-area-inset-top);
-      height: calc(52px + env(safe-area-inset-top));
-    }
-
-    .canvas-wrap {
-      padding-bottom:
-        calc(30px + env(safe-area-inset-bottom));
-    }
-
-    .toast-container {
-      bottom:
-        calc(10px + env(safe-area-inset-bottom));
-    }
-
-  }
-
-}
-
-
-/* ==========================================================================
-   REDUÇÃO DE MOVIMENTO
-   ========================================================================== */
-
-@media (prefers-reduced-motion: reduce) {
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-
-}
 </style>
 
 </head>
