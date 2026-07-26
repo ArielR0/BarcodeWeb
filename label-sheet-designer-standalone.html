@@ -1,0 +1,6009 @@
+<!doctype html>
+
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>BarcodeWeb</title>
+
+<!-- PDF.js -->
+<link rel="icon" type="image/x-icon" href="images/baricon.ico">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs" type="module"></script>
+
+<!-- jsPDF -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+/* ==========================================================================
+   LABEL SHEET DESIGNER
+   PREMIUM LABEL WORKSPACE
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --canvas-bg: #e9e9e7;
+  --paper-bg: #ffffff;
+  --panel-bg: #ffffff;
+  --sidebar-bg: #f8f8f6;
+  --header-bg: #ffffff;
+
+  --ink-primary: #151618;
+  --ink-secondary: #60636a;
+  --ink-tertiary: #92959c;
+  --ink-disabled: #c4c6ca;
+
+  --border-subtle: #e5e5e2;
+  --border-strong: #d0d1cc;
+
+  --accent-main: #1c6442;
+  --accent-dark: #154d34;
+  --accent-subtle: #eff7f2;
+  --accent-border: #a6d1b8;
+
+  --danger: #c94a29;
+  --danger-bg: #fdf1ee;
+
+  --blue: #356ae6;
+  --blue-bg: #eef3ff;
+
+  --shadow-paper:
+    0 1px 3px rgba(0,0,0,.05),
+    0 16px 40px rgba(0,0,0,.10);
+
+  --shadow-dropdown:
+    0 10px 30px rgba(0,0,0,.14),
+    0 2px 8px rgba(0,0,0,.08);
+
+  --font-sans:
+    'Geist',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+
+  --font-mono:
+    'JetBrains Mono',
+    monospace;
+
+  --transition:
+    150ms cubic-bezier(.16,1,.3,1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+
+  overflow: hidden;
+
+  background: var(--canvas-bg);
+  color: var(--ink-primary);
+
+  font-family: var(--font-sans);
+  font-size: 13px;
+
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   APP
+   ========================================================================== */
+
+.app {
+  height: 100vh;
+
+  display: grid;
+  grid-template-rows: 56px 1fr;
+
+  background: var(--canvas-bg);
+}
+
+/* ==========================================================================
+   HEADER
+   ========================================================================== */
+
+header.topbar {
+  height: 56px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 18px;
+
+  background: var(--header-bg);
+
+  border-bottom: 1px solid var(--border-subtle);
+
+  z-index: 50;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.brand-logo {
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 7px;
+
+  background: var(--ink-primary);
+  color: white;
+
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.brand-title {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.brand-subtitle {
+  font-size: 10px;
+  color: var(--ink-tertiary);
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ==========================================================================
+   BUTTONS
+   ========================================================================== */
+
+button {
+  height: 32px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  padding: 0 12px;
+
+  border: 1px solid var(--border-subtle);
+  border-radius: 7px;
+
+  background: white;
+  color: var(--ink-primary);
+
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background var(--transition),
+    border-color var(--transition),
+    transform var(--transition),
+    box-shadow var(--transition);
+}
+
+button:hover {
+  background: #f6f6f4;
+  border-color: var(--border-strong);
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+button.primary {
+  color: white;
+  background: var(--ink-primary);
+  border-color: var(--ink-primary);
+}
+
+button.primary:hover {
+  background: #2c2e32;
+}
+
+button.accent {
+  color: white;
+  background: var(--accent-main);
+  border-color: var(--accent-main);
+}
+
+button.accent:hover {
+  background: var(--accent-dark);
+}
+
+button.ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--ink-secondary);
+}
+
+button.ghost:hover {
+  background: #eeeeec;
+  color: var(--ink-primary);
+}
+
+button.danger {
+  color: var(--danger);
+}
+
+button:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ==========================================================================
+   BODY
+   ========================================================================== */
+
+.body {
+  min-height: 0;
+
+  display: flex;
+}
+
+/* ==========================================================================
+   SIDEBAR
+   ========================================================================== */
+
+aside {
+  width: 330px;
+  flex-shrink: 0;
+
+  padding: 16px;
+
+  overflow-y: auto;
+
+  background: var(--sidebar-bg);
+
+  border-right: 1px solid var(--border-subtle);
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.meta {
+  padding: 0 3px;
+
+  color: var(--ink-tertiary);
+
+  font-family: var(--font-mono);
+  font-size: 10px;
+
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+/* ==========================================================================
+   CARDS
+   ========================================================================== */
+
+.card {
+  overflow: hidden;
+
+  background: var(--panel-bg);
+
+  border: 1px solid var(--border-subtle);
+  border-radius: 9px;
+}
+
+.card-header {
+  min-height: 38px;
+
+  padding: 0 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: #fafaf9;
+
+  border-bottom: 1px solid var(--border-subtle);
+
+  color: var(--ink-secondary);
+
+  font-size: 11px;
+  font-weight: 600;
+
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.card-body {
+  padding: 12px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+/* ==========================================================================
+   DROPZONE
+   ========================================================================== */
+
+.dropzone {
+  min-height: 104px;
+
+  padding: 16px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  border: 1px dashed var(--border-strong);
+  border-radius: 8px;
+
+  background: #fafafa;
+
+  cursor: pointer;
+
+  transition: all var(--transition);
+}
+
+.dropzone:hover {
+  border-color: var(--ink-primary);
+  background: white;
+}
+
+.dropzone.drag {
+  border-color: var(--accent-main);
+  background: var(--accent-subtle);
+}
+
+.dropzone-icon {
+  width: 32px;
+  height: 32px;
+
+  margin-bottom: 7px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 8px;
+
+  background: #eeeeec;
+
+  font-size: 15px;
+}
+
+.dropzone-title {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.dropzone-hint {
+  margin-top: 5px;
+
+  color: var(--ink-tertiary);
+
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+/* ==========================================================================
+   LABEL LIBRARY
+   ========================================================================== */
+
+.library-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 3px;
+}
+
+.library-count {
+  color: var(--ink-tertiary);
+
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+.label-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.empty-library {
+  padding: 16px 8px;
+
+  text-align: center;
+
+  color: var(--ink-tertiary);
+
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.label-item {
+  min-height: 48px;
+
+  padding: 6px 8px;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  background: white;
+
+  border: 1px solid var(--border-subtle);
+  border-radius: 7px;
+
+  cursor: pointer;
+
+  transition: all var(--transition);
+}
+
+.label-item:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-1px);
+}
+
+.label-item.selected {
+  border-color: var(--accent-border);
+  background: var(--accent-subtle);
+  box-shadow: 0 0 0 1px rgba(28,100,66,.08);
+}
+
+.label-thumb {
+  width: 34px;
+  height: 34px;
+
+  flex-shrink: 0;
+
+  object-fit: contain;
+
+  border: 1px solid var(--border-subtle);
+  border-radius: 5px;
+
+  background: white;
+}
+
+.label-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.label-name {
+  overflow: hidden;
+
+  color: var(--ink-primary);
+
+  font-size: 11px;
+  font-weight: 500;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.label-type {
+  margin-top: 3px;
+
+  color: var(--ink-tertiary);
+
+  font-family: var(--font-mono);
+  font-size: 9px;
+}
+
+.label-remove {
+  width: 25px;
+  height: 25px;
+
+  padding: 0;
+
+  color: var(--ink-tertiary);
+
+  border: none;
+  background: transparent;
+}
+
+.label-remove:hover {
+  color: var(--danger);
+  background: var(--danger-bg);
+}
+
+/* ==========================================================================
+   FORM
+   ========================================================================== */
+
+.field {
+  display: block;
+}
+
+.field-label {
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: var(--ink-secondary);
+
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.field-hint {
+  display: block;
+
+  margin-top: 5px;
+
+  color: var(--ink-tertiary);
+
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+input[type="number"],
+input[type="text"] {
+  width: 100%;
+  height: 33px;
+
+  padding: 0 10px;
+
+  border: 1px solid var(--border-subtle);
+  border-radius: 7px;
+
+  background: white;
+
+  color: var(--ink-primary);
+
+  font-family: var(--font-mono);
+  font-size: 12px;
+
+  outline: none;
+
+  transition: all var(--transition);
+}
+
+input[type="number"]:focus,
+input[type="text"]:focus {
+  border-color: var(--ink-primary);
+  box-shadow: 0 0 0 3px rgba(18,19,22,.07);
+}
+
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+/* ==========================================================================
+   FIT CHOICE
+   ========================================================================== */
+
+.fit-choice {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fit-choice button {
+  justify-content: flex-start;
+
+  height: 29px;
+
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.fit-choice button.selected {
+  color: var(--accent-main);
+
+  border-color: var(--accent-border);
+
+  background: var(--accent-subtle);
+
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   NUDGE
+   ========================================================================== */
+
+.nudge {
+  display: grid;
+  grid-template-columns: repeat(3, 30px);
+
+  gap: 4px;
+
+  justify-content: center;
+}
+
+.nudge button {
+  width: 30px;
+  height: 30px;
+
+  padding: 0;
+}
+
+/* ==========================================================================
+   MAIN WORKSPACE
+   ========================================================================== */
+
+.main {
+  min-width: 0;
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================================================
+   TOOLBAR
+   ========================================================================== */
+
+.toolbar {
+  height: 44px;
+
+  flex-shrink: 0;
+
+  padding: 0 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: white;
+
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.toolbar-left,
+.toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mode-toggle {
+  padding: 2px;
+
+  display: flex;
+  gap: 2px;
+
+  background: #f4f4f2;
+
+  border: 1px solid var(--border-subtle);
+  border-radius: 7px;
+}
+
+.mode-toggle button {
+  height: 26px;
+
+  padding: 0 10px;
+
+  border: none;
+  border-radius: 5px;
+
+  background: transparent;
+
+  color: var(--ink-secondary);
+
+  font-size: 11px;
+}
+
+.mode-toggle button.active {
+  background: white;
+
+  color: var(--ink-primary);
+
+  box-shadow: 0 1px 3px rgba(0,0,0,.08);
+}
+
+.stat {
+  color: var(--ink-tertiary);
+
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+.zoom {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.zoom button {
+  width: 28px;
+  height: 27px;
+
+  padding: 0;
+}
+
+.zoom-label {
+  width: 45px;
+
+  text-align: center;
+
+  color: var(--ink-secondary);
+
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+/* ==========================================================================
+   CANVAS
+   ========================================================================== */
+
+.canvas-wrap {
+  flex: 1;
+
+  overflow: auto;
+
+  padding: 40px;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+
+  background:
+    radial-gradient(circle at center, #eeeeec 0, #e8e8e6 100%);
+}
+
+.sheet-outer {
+  position: relative;
+  flex-shrink: 0;
+}
+
+#sheet {
+  position: relative;
+
+  background: white;
+
+  transform-origin: top center;
+
+  box-shadow: var(--shadow-paper);
+}
+
+/* ==========================================================================
+   SLOTS
+   ========================================================================== */
+
+.slot {
+  position: absolute;
+
+  overflow: visible;
+
+  background: rgba(255,255,255,.55);
+
+  border: 1px dashed var(--border-strong);
+  border-radius: 2px;
+
+  cursor: pointer;
+
+  transition:
+    border-color var(--transition),
+    background var(--transition),
+    box-shadow var(--transition);
+}
+
+.slot:hover {
+  background: white;
+  border-color: var(--ink-primary);
+}
+
+.slot.filled {
+  background: white;
+  border-style: solid;
+  border-color: #e3e3df;
+}
+
+.slot.active {
+  outline: 2px solid var(--accent-main);
+  outline-offset: -1px;
+}
+
+.slot.dragover {
+  background: var(--accent-subtle);
+  border-color: var(--accent-main);
+
+  outline: 2px dashed var(--accent-main);
+}
+
+.slot.before-start {
+  background: rgba(18,19,22,.025);
+  border-style: dotted;
+}
+
+.slot-number {
+  position: absolute;
+
+  top: 3px;
+  left: 3px;
+
+  z-index: 5;
+
+  padding: 2px 4px;
+
+  border-radius: 3px;
+
+  background: rgba(255,255,255,.88);
+
+  color: var(--ink-tertiary);
+
+  font-family: var(--font-mono);
+  font-size: 8px;
+
+  pointer-events: none;
+}
+
+.slot-placeholder {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--ink-tertiary);
+
+  font-size: 15px;
+
+  pointer-events: none;
+}
+
+.slot-placeholder small {
+  margin-top: 3px;
+
+  font-family: var(--font-mono);
+  font-size: 8px;
+}
+
+.label-img {
+  position: absolute;
+
+  pointer-events: none;
+  user-select: none;
+}
+
+.warning {
+  position: absolute;
+
+  top: 3px;
+  right: 3px;
+
+  z-index: 6;
+
+  padding: 2px 4px;
+
+  border-radius: 3px;
+
+  background: var(--danger-bg);
+
+  color: var(--danger);
+
+  font-size: 9px;
+}
+
+/* ==========================================================================
+   SLOT MENU
+   ========================================================================== */
+
+.slot-menu {
+  position: absolute;
+
+  top: calc(100% + 5px);
+  left: 0;
+
+  z-index: 1000;
+
+  width: 155px;
+
+  padding: 4px;
+
+  background: white;
+
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+
+  box-shadow: var(--shadow-dropdown);
+}
+
+.slot-menu button {
+  width: 100%;
+  height: 29px;
+
+  justify-content: flex-start;
+
+  border: none;
+
+  background: transparent;
+
+  font-size: 11px;
+}
+
+.slot-menu button:hover {
+  background: #f5f5f3;
+}
+
+.slot-menu button.danger {
+  color: var(--danger);
+}
+
+.slot-menu button.danger:hover {
+  background: var(--danger-bg);
+}
+
+/* ==========================================================================
+   PDF MODAL
+   ========================================================================== */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+
+  z-index: 5000;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  padding: 30px;
+
+  background: rgba(15,16,18,.48);
+
+  backdrop-filter: blur(5px);
+}
+
+.modal-overlay.open {
+  display: flex;
+}
+
+.modal {
+  width: min(900px, 100%);
+  max-height: min(720px, 90vh);
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  background: white;
+
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 12px;
+
+  box-shadow:
+    0 30px 80px rgba(0,0,0,.25),
+    0 5px 20px rgba(0,0,0,.12);
+}
+
+.modal-header {
+  min-height: 60px;
+
+  padding: 0 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.modal-title {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.modal-subtitle {
+  margin-top: 3px;
+
+  color: var(--ink-tertiary);
+
+  font-size: 11px;
+}
+
+.modal-close {
+  width: 32px;
+  height: 32px;
+
+  padding: 0;
+
+  border: none;
+  background: transparent;
+
+  font-size: 18px;
+}
+
+.modal-body {
+  flex: 1;
+
+  overflow: auto;
+
+  padding: 18px;
+}
+
+.pdf-pages {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fill, minmax(150px, 1fr));
+
+  gap: 12px;
+}
+
+.pdf-page {
+  position: relative;
+
+  padding: 7px;
+
+  background: #fafafa;
+
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  transition: all var(--transition);
+}
+
+.pdf-page:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-1px);
+}
+
+.pdf-page.selected {
+  border-color: var(--accent-main);
+
+  background: var(--accent-subtle);
+
+  box-shadow: 0 0 0 2px rgba(28,100,66,.12);
+}
+
+.pdf-page canvas {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  background: white;
+
+  border: 1px solid #e5e5e5;
+}
+
+.pdf-page-footer {
+  padding: 8px 2px 2px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  color: var(--ink-secondary);
+
+  font-size: 10px;
+}
+
+.pdf-check {
+  width: 17px;
+  height: 17px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #e6e6e4;
+
+  color: transparent;
+
+  font-size: 10px;
+}
+
+.pdf-page.selected .pdf-check {
+  background: var(--accent-main);
+  color: white;
+}
+
+.modal-footer {
+  min-height: 62px;
+
+  padding: 0 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border-top: 1px solid var(--border-subtle);
+}
+
+.modal-footer-info {
+  color: var(--ink-tertiary);
+
+  font-size: 11px;
+}
+
+/* ==========================================================================
+   TOAST
+   ========================================================================== */
+
+.toast-container {
+  position: fixed;
+
+  right: 18px;
+  bottom: 18px;
+
+  z-index: 9000;
+
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.toast {
+  max-width: 340px;
+
+  padding: 11px 14px;
+
+  background: #17181a;
+  color: white;
+
+  border-radius: 8px;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,.18);
+
+  font-size: 11px;
+
+  animation: toastIn .2s ease-out;
+}
+
+.toast.success {
+  background: var(--accent-main);
+}
+
+.toast.error {
+  background: var(--danger);
+}
+
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================================
+   PRINT
+   ========================================================================== */
+
+body.print-mode .slot {
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+}
+
+body.print-mode .slot-number,
+body.print-mode .slot-placeholder,
+body.print-mode .warning,
+body.print-mode .slot-menu {
+  display: none !important;
+}
+
+@media print {
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  html,
+  body {
+    width: 210mm;
+    height: 297mm;
+    overflow: hidden;
+    background: white;
+  }
+
+  body * {
+    visibility: hidden !important;
+  }
+
+  #sheet,
+  #sheet * {
+    visibility: visible !important;
+  }
+
+  #sheet {
+    position: fixed !important;
+
+    top: 0 !important;
+    left: 0 !important;
+
+    width: 210mm !important;
+    height: 297mm !important;
+
+    transform: none !important;
+
+    box-shadow: none !important;
+  }
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 900px) {
+
+  aside {
+    width: 280px;
+  }
+
+  .top-actions button:not(.primary) {
+    display: none;
+  }
+
+  .canvas-wrap {
+    padding: 25px;
+  }
+}
+
+@media (max-width: 700px) {
+
+  html,
+  body {
+    overflow: auto;
+  }
+
+  .app {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .body {
+    flex-direction: column;
+  }
+
+  aside {
+    width: 100%;
+    max-height: 45vh;
+  }
+
+  .main {
+    min-height: 650px;
+  }
+}
+
+
+.brand-logo {
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: transparent;
+}
+
+.brand-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<header class="topbar">
+
+  <div class="brand">
+
+
+<div class="brand-logo">
+  <img src="images/baricon.png" alt="Baricon">
+</div>
+
+<div class="brand-text">
+
+  <div class="brand-title">
+    BarcodeWeb
+  </div>
+
+  <div class="brand-subtitle">
+    Montador de etiquetas A4
+  </div>
+
+</div>
+
+
+  </div>
+
+  <div class="top-actions">
+
+
+<button id="btnClear">
+  Limpar
+</button>
+
+<input
+  type="file"
+  id="fileImport"
+  accept="application/json"
+  hidden
+/>
+
+<button id="btnImport">
+  Importar projeto
+</button>
+
+<button id="btnSave">
+  Salvar projeto
+</button>
+
+<button id="btnExportPdf">
+  Exportar PDF
+</button>
+
+<button id="btnPrint" class="primary">
+  Imprimir
+</button>
+
+
+  </div>
+
+</header>
+
+<div class="body">
+
+<aside>
+
+  <div class="meta" id="templMeta"></div>
+
+  <!-- ETIQUETA -->
+
+  <div class="card">
+
+
+<div class="card-header">
+
+  <span>1. Adicionar etiquetas</span>
+
+  <span class="library-count" id="libraryCount">
+    0
+  </span>
+
+</div>
+
+<div class="card-body">
+
+  <div
+    class="dropzone"
+    id="dropzone"
+  >
+
+    <div class="dropzone-icon">
+      ↑
+    </div>
+
+    <div class="dropzone-title">
+      Adicione suas etiquetas
+    </div>
+
+    <div class="dropzone-hint">
+      Clique, arraste arquivos ou cole com Ctrl+V
+      <br>
+      PNG · JPG · WEBP · SVG · PDF
+    </div>
+
+    <input
+      type="file"
+      id="fileInput"
+      accept="
+        image/png,
+        image/jpeg,
+        image/webp,
+        image/svg+xml,
+        application/pdf,
+        .svg,
+        .pdf
+      "
+      multiple
+      hidden
+    />
+
+  </div>
+
+
+  <div class="library-header">
+
+    <span
+      style="
+        font-size:11px;
+        font-weight:500;
+        color:var(--ink-secondary);
+      "
+    >
+      Biblioteca
+    </span>
+
+    <span
+      class="library-count"
+      id="libraryCountSecondary"
+    >
+      0 etiquetas
+    </span>
+
+  </div>
+
+
+  <div
+    class="label-list"
+    id="labelList"
+  ></div>
+
+</div>
+```
+
+  </div>
+
+  <!-- QUANTIDADE -->
+
+  <div class="card">
+
+```
+<div class="card-header">
+  2. Distribuição
+</div>
+
+<div
+  class="card-body"
+  id="qtyPanel"
+></div>
+```
+
+  </div>
+
+  <!-- START -->
+
+  <div class="card">
+
+```
+<div class="card-header">
+  3. Posição inicial
+</div>
+
+<div class="card-body">
+
+  <label class="field">
+
+    <span class="field-label">
+      Começar no slot
+    </span>
+
+    <input
+      type="number"
+      id="startSlot"
+      min="1"
+      value="1"
+    />
+
+    <span class="field-hint">
+      Deixe os slots anteriores vazios para reutilizar
+      uma folha de etiquetas parcialmente usada.
+    </span>
+
+  </label>
+
+</div>
+```
+
+  </div>
+
+  <!-- AJUSTE -->
+
+  <div class="card">
+
+```
+<div class="card-header">
+  Ajuste da etiqueta
+</div>
+
+<div
+  class="card-body"
+  id="adjustPanel"
+>
+
+  <span
+    style="
+      font-size:11px;
+      color:var(--ink-tertiary);
+      line-height:1.5;
+    "
+  >
+    Clique em uma etiqueta na folha para ajustar
+    escala e posicionamento.
+  </span>
+
+</div>
+```
+
+  </div>
+
+  <!-- CALIBRAÇÃO -->
+
+  <div class="card">
+
+```
+<div class="card-header">
+  Calibração da impressora
+</div>
+
+<div class="card-body">
+
+  <span
+    style="
+      font-size:11px;
+      color:var(--ink-tertiary);
+      line-height:1.5;
+    "
+  >
+    Use a folha de teste caso sua impressora
+    apresente pequenos desvios de alinhamento.
+  </span>
+
+  <div class="grid2">
+
+    <label class="field">
+
+      <span class="field-label">
+        Horizontal
+      </span>
+
+      <input
+        type="number"
+        id="calX"
+        step="0.5"
+        value="0"
+      />
+
+    </label>
+
+    <label class="field">
+
+      <span class="field-label">
+        Vertical
+      </span>
+
+      <input
+        type="number"
+        id="calY"
+        step="0.5"
+        value="0"
+      />
+
+    </label>
+
+  </div>
+
+  <button
+    id="btnCalSheet"
+    style="width:100%;"
+  >
+    Gerar folha de teste
+  </button>
+
+</div>
+```
+
+  </div>
+
+</aside>
+
+<main class="main">
+
+  <div class="toolbar">
+
+```
+<div class="toolbar-left">
+
+  <div class="mode-toggle">
+
+    <button
+      id="modeEditor"
+      class="active"
+    >
+      Editor
+    </button>
+
+    <button
+      id="modePrint"
+    >
+      Impressão
+    </button>
+
+  </div>
+
+  <span
+    class="stat"
+    id="fillStat"
+  >
+    0/30 slots
+  </span>
+
+</div>
+
+
+<div class="toolbar-right">
+
+  <div class="zoom">
+
+    <button id="zoomOut">
+      −
+    </button>
+
+    <span
+      class="zoom-label"
+      id="zoomLabel"
+    >
+      100%
+    </span>
+
+    <button id="zoomIn">
+      +
+    </button>
+
+  </div>
+
+</div>
+```
+
+  </div>
+
+  <div class="canvas-wrap">
+
+```
+<div
+  class="sheet-outer"
+  id="sheetOuter"
+>
+
+  <div id="sheet"></div>
+
+</div>
+```
+
+  </div>
+
+</main>
+
+</div>
+
+</div>
+
+<!-- ==========================================================================
+     PDF IMPORT MODAL
+     ========================================================================== -->
+
+<div
+  class="modal-overlay"
+  id="pdfModal"
+>
+
+  <div class="modal">
+
+
+<div class="modal-header">
+
+  <div>
+
+    <div class="modal-title">
+      Importar páginas do PDF
+    </div>
+
+    <div
+      class="modal-subtitle"
+      id="pdfModalSubtitle"
+    >
+      Selecione as páginas que deseja adicionar à biblioteca.
+    </div>
+
+  </div>
+
+  <button
+    class="modal-close"
+    id="pdfModalClose"
+  >
+    ×
+  </button>
+
+</div>
+
+
+<div class="modal-body">
+
+  <div
+    class="pdf-pages"
+    id="pdfPages"
+  ></div>
+
+</div>
+
+
+<div class="modal-footer">
+
+  <div
+    class="modal-footer-info"
+    id="pdfSelectionInfo"
+  >
+    Nenhuma página selecionada
+  </div>
+
+  <div
+    style="
+      display:flex;
+      gap:7px;
+    "
+  >
+
+    <button id="pdfSelectAll">
+      Selecionar todas
+    </button>
+
+    <button
+      class="accent"
+      id="pdfImportSelected"
+    >
+      Adicionar selecionadas
+    </button>
+
+  </div>
+
+</div>
+
+
+  </div>
+
+</div>
+
+<div
+  class="toast-container"
+  id="toastContainer"
+></div>
+
+<script type="module">
+
+'use strict';
+
+
+/* ==========================================================================
+   IMPORTS
+   ========================================================================== */
+
+import * as pdfjsLib
+  from 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs';
+
+
+/* ==========================================================================
+   PDF.JS WORKER
+   ========================================================================== */
+
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs';
+
+
+/* ==========================================================================
+   JSPDF
+   ========================================================================== */
+
+const {
+  jsPDF
+} = window.jspdf;
+
+
+/* ==========================================================================
+   TEMPLATE
+   ========================================================================== */
+
+const TEMPLATE = {
+
+  name:
+    'Pimaco A4 — 30 etiquetas',
+
+  manufacturer:
+    'Pimaco',
+
+  model:
+    '6180 / equivalente',
+
+  pageWidth:
+    210,
+
+  pageHeight:
+    297,
+
+  rows:
+    10,
+
+  columns:
+    3,
+
+  labelWidth:
+    63.5,
+
+  labelHeight:
+    26.9,
+
+  marginTop:
+    13.5,
+
+  marginLeft:
+    7.2,
+
+  spacingH:
+    3.0,
+
+  spacingV:
+    0
+
+};
+
+
+const totalSlots =
+  TEMPLATE.rows *
+  TEMPLATE.columns;
+
+
+/* ==========================================================================
+   ENGINE
+   ========================================================================== */
+
+function getSlotPosition(index) {
+
+  const row =
+    Math.floor(
+      index /
+      TEMPLATE.columns
+    );
+
+  const col =
+    index %
+    TEMPLATE.columns;
+
+
+  return {
+
+    x:
+      TEMPLATE.marginLeft +
+      col *
+      (
+        TEMPLATE.labelWidth +
+        TEMPLATE.spacingH
+      ),
+
+    y:
+      TEMPLATE.marginTop +
+      row *
+      (
+        TEMPLATE.labelHeight +
+        TEMPLATE.spacingV
+      ),
+
+    width:
+      TEMPLATE.labelWidth,
+
+    height:
+      TEMPLATE.labelHeight
+
+  };
+
+}
+
+
+function getFinalOrigin(
+  index,
+  slot
+) {
+
+  const base =
+    getSlotPosition(index);
+
+
+  return {
+
+    x:
+      base.x +
+      state.calibration.x +
+      slot.offsetXmm,
+
+    y:
+      base.y +
+      state.calibration.y +
+      slot.offsetYmm
+
+  };
+
+}
+
+
+/* ==========================================================================
+   IMAGE FIT ENGINE
+   ========================================================================== */
+
+function computeDrawRect(
+  slotW,
+  slotH,
+  natW,
+  natH,
+  fitMode,
+  scale
+) {
+
+  const targetW =
+    slotW *
+    scale;
+
+  const targetH =
+    slotH *
+    scale;
+
+
+  if (
+    fitMode ===
+    'original'
+  ) {
+
+    const wMm =
+      (
+        natW /
+        96
+      ) *
+      25.4 *
+      scale;
+
+
+    const hMm =
+      (
+        natH /
+        96
+      ) *
+      25.4 *
+      scale;
+
+
+    return {
+
+      x:
+        (
+          slotW -
+          wMm
+        ) /
+        2,
+
+      y:
+        (
+          slotH -
+          hMm
+        ) /
+        2,
+
+      width:
+        wMm,
+
+      height:
+        hMm
+
+    };
+
+  }
+
+
+  const natRatio =
+    natW /
+    natH;
+
+
+  const targetRatio =
+    targetW /
+    targetH;
+
+
+  if (
+    fitMode ===
+    'fill'
+  ) {
+
+    return {
+
+      x:
+        (
+          slotW -
+          targetW
+        ) /
+        2,
+
+      y:
+        (
+          slotH -
+          targetH
+        ) /
+        2,
+
+      width:
+        targetW,
+
+      height:
+        targetH
+
+    };
+
+  }
+
+
+  let dw;
+  let dh;
+
+
+  if (
+    natRatio >
+    targetRatio
+  ) {
+
+    dw =
+      targetW;
+
+    dh =
+      targetW /
+      natRatio;
+
+  } else {
+
+    dh =
+      targetH;
+
+    dw =
+      targetH *
+      natRatio;
+
+  }
+
+
+  return {
+
+    x:
+      (
+        slotW -
+        dw
+      ) /
+      2,
+
+    y:
+      (
+        slotH -
+        dh
+      ) /
+      2,
+
+    width:
+      dw,
+
+    height:
+      dh
+
+  };
+
+}
+
+
+function aspectMismatch(
+  slotW,
+  slotH,
+  natW,
+  natH
+) {
+
+  const slotRatio =
+    slotW /
+    slotH;
+
+  const imageRatio =
+    natW /
+    natH;
+
+
+  return (
+    Math.abs(
+      slotRatio -
+      imageRatio
+    ) /
+    slotRatio
+  ) >
+  .08;
+
+}
+
+
+/* ==========================================================================
+   STATE
+   ========================================================================== */
+
+function emptySlot() {
+
+  return {
+
+    labelId:
+      null,
+
+    fitMode:
+      'contain',
+
+    scale:
+      1,
+
+    offsetXmm:
+      0,
+
+    offsetYmm:
+      0
+
+  };
+
+}
+
+
+const state = {
+
+  labels: [],
+
+  slots:
+    Array.from(
+      {
+        length:
+          totalSlots
+      },
+      emptySlot
+    ),
+
+  selectedLabelId:
+    null,
+
+  startSlotIndex:
+    0,
+
+  calibration: {
+
+    x:
+      0,
+
+    y:
+      0
+
+  },
+
+  activeSlotIndex:
+    null,
+
+  mode:
+    'editor',
+
+  zoom:
+    1,
+
+  quantity:
+    1
+
+};
+
+
+/* ==========================================================================
+   LOAD CALIBRATION
+   ========================================================================== */
+
+try {
+
+  const saved =
+    JSON.parse(
+      localStorage.getItem(
+        'lsd-calibration'
+      ) ||
+      'null'
+    );
+
+
+  if (
+    saved
+  ) {
+
+    state.calibration =
+      saved;
+
+  }
+
+} catch (
+  error
+) {}
+
+
+/* ==========================================================================
+   HELPERS
+   ========================================================================== */
+
+function uid(
+  prefix
+) {
+
+  return (
+    prefix +
+    '_' +
+    Math.random()
+      .toString(36)
+      .slice(2, 10)
+  );
+
+}
+
+
+function escapeHtml(
+  value
+) {
+
+  return String(
+    value
+  ).replace(
+    /[&<>"']/g,
+
+    char => ({
+
+      '&':
+        '&amp;',
+
+      '<':
+        '&lt;',
+
+      '>':
+        '&gt;',
+
+      '"':
+        '&quot;',
+
+      "'":
+        '&#39;'
+
+    }[char])
+
+  );
+
+}
+
+
+function showToast(
+  message,
+  type = ''
+) {
+
+  const container =
+    document.getElementById(
+      'toastContainer'
+    );
+
+
+  const toast =
+    document.createElement(
+      'div'
+    );
+
+
+  toast.className =
+    `toast ${type}`;
+
+
+  toast.textContent =
+    message;
+
+
+  container.appendChild(
+    toast
+  );
+
+
+  setTimeout(
+    () => {
+
+      toast.remove();
+
+    },
+
+    3200
+
+  );
+
+}
+
+
+/* ==========================================================================
+   DOM
+   ========================================================================== */
+
+const $ =
+  selector =>
+    document.querySelector(
+      selector
+    );
+
+
+const sheetEl =
+  $('#sheet');
+
+
+const sheetOuter =
+  $('#sheetOuter');
+
+
+const labelListEl =
+  $('#labelList');
+
+
+const qtyPanelEl =
+  $('#qtyPanel');
+
+
+const adjustPanelEl =
+  $('#adjustPanel');
+
+
+/* ==========================================================================
+   RENDER
+   ========================================================================== */
+
+function render() {
+
+  renderMeta();
+
+  renderLabelList();
+
+  renderQtyPanel();
+
+  renderAdjustPanel();
+
+  renderSheet();
+
+  renderStats();
+
+
+  $('#calX').value =
+    state.calibration.x;
+
+
+  $('#calY').value =
+    state.calibration.y;
+
+
+  $('#startSlot').value =
+    state.startSlotIndex +
+    1;
+
+
+  $('#startSlot').max =
+    totalSlots;
+
+
+  $('#zoomLabel').textContent =
+    Math.round(
+      state.zoom *
+      100
+    ) +
+    '%';
+
+
+  document.body.classList.toggle(
+    'print-mode',
+
+    state.mode ===
+    'print'
+  );
+
+
+  $('#modeEditor').classList.toggle(
+    'active',
+
+    state.mode ===
+    'editor'
+  );
+
+
+  $('#modePrint').classList.toggle(
+    'active',
+
+    state.mode ===
+    'print'
+  );
+
+}
+
+
+/* ==========================================================================
+   META
+   ========================================================================== */
+
+function renderMeta() {
+
+  $('#templMeta').textContent =
+
+    `${TEMPLATE.name} · ` +
+
+    `${TEMPLATE.rows}×${TEMPLATE.columns} · ` +
+
+    `${TEMPLATE.labelWidth}×${TEMPLATE.labelHeight}mm`;
+
+}
+
+
+/* ==========================================================================
+   STATS
+   ========================================================================== */
+
+function renderStats() {
+
+  const filled =
+    state.slots.filter(
+      slot =>
+        slot.labelId
+    ).length;
+
+
+  $('#fillStat').textContent =
+
+    `${filled}/${totalSlots} slots preenchidos`;
+
+}
+
+
+/* ==========================================================================
+   LABEL LIBRARY
+   ========================================================================== */
+
+function renderLabelList() {
+
+  labelListEl.innerHTML =
+    '';
+
+
+  $('#libraryCount').textContent =
+    state.labels.length;
+
+
+  $('#libraryCountSecondary').textContent =
+
+    `${state.labels.length} ` +
+
+    (
+      state.labels.length ===
+      1
+
+        ? 'etiqueta'
+
+        : 'etiquetas'
+
+    );
+
+
+  if (
+    !state.labels.length
+  ) {
+
+    labelListEl.innerHTML = `
+
+      <div class="empty-library">
+
+        Nenhuma etiqueta adicionada ainda.
+
+        <br>
+
+        Importe uma imagem ou PDF
+        para começar.
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  state.labels.forEach(
+    label => {
+
+      const item =
+        document.createElement(
+          'div'
+        );
+
+
+      item.className =
+
+        'label-item' +
+
+        (
+
+          state.selectedLabelId ===
+          label.id
+
+            ? ' selected'
+
+            : ''
+
+        );
+
+
+      const type =
+        label.sourceType ||
+        'imagem';
+
+
+      item.innerHTML = `
+
+        <img
+          class="label-thumb"
+          src="${label.imageDataUrl}"
+          alt=""
+        >
+
+        <div class="label-info">
+
+          <div class="label-name">
+            ${escapeHtml(label.name)}
+          </div>
+
+          <div class="label-type">
+            ${escapeHtml(type)}
+          </div>
+
+        </div>
+
+        <button
+          class="label-remove"
+          title="Remover etiqueta"
+        >
+          ×
+        </button>
+
+      `;
+
+
+      item.addEventListener(
+        'click',
+
+        () => {
+
+          state.selectedLabelId =
+            label.id;
+
+          render();
+
+        }
+
+      );
+
+
+      item
+        .querySelector(
+          '.label-remove'
+        )
+        .addEventListener(
+
+          'click',
+
+          event => {
+
+            event.stopPropagation();
+
+
+            state.labels =
+              state.labels.filter(
+
+                item =>
+                  item.id !==
+                  label.id
+
+              );
+
+
+            state.slots =
+              state.slots.map(
+
+                slot =>
+
+                  slot.labelId ===
+                  label.id
+
+                    ? emptySlot()
+
+                    : slot
+
+              );
+
+
+            if (
+              state.selectedLabelId ===
+              label.id
+            ) {
+
+              state.selectedLabelId =
+                null;
+
+            }
+
+
+            render();
+
+            showToast(
+              'Etiqueta removida.'
+            );
+
+          }
+
+        );
+
+
+      labelListEl.appendChild(
+        item
+      );
+
+    }
+
+  );
+
+}
+
+
+/* ==========================================================================
+   QUANTITY PANEL
+   ========================================================================== */
+
+function renderQtyPanel() {
+
+  const label =
+    state.labels.find(
+
+      item =>
+        item.id ===
+        state.selectedLabelId
+
+    );
+
+
+  if (
+    !label
+  ) {
+
+    qtyPanelEl.innerHTML = `
+
+      <span
+        style="
+          font-size:11px;
+          color:var(--ink-tertiary);
+          line-height:1.5;
+        "
+      >
+
+        Selecione uma etiqueta na biblioteca
+        para definir quantas cópias deseja imprimir.
+
+      </span>
+
+    `;
+
+    return;
+
+  }
+
+
+  qtyPanelEl.innerHTML = `
+
+    <div
+      style="
+        padding:8px 10px;
+        border-radius:7px;
+        background:var(--accent-subtle);
+        color:var(--accent-main);
+        font-size:11px;
+        line-height:1.4;
+      "
+    >
+
+      Etiqueta selecionada:
+
+      <strong>
+        ${escapeHtml(label.name)}
+      </strong>
+
+    </div>
+
+
+    <label class="field">
+
+      <span class="field-label">
+        Quantidade de cópias
+      </span>
+
+      <input
+        type="number"
+        id="qtyInput"
+        min="1"
+        max="${totalSlots}"
+        value="${state.quantity}"
+      >
+
+    </label>
+
+
+    <button
+      class="accent"
+      id="btnAutoFill"
+      style="width:100%;"
+    >
+
+      Preencher slots automaticamente
+
+    </button>
+
+
+    <button
+      id="btnFillAllEmpty"
+      style="width:100%;"
+    >
+
+      Preencher todos os slots vazios
+
+    </button>
+
+  `;
+
+
+  $('#qtyInput').addEventListener(
+
+    'input',
+
+    event => {
+
+      state.quantity =
+
+        Math.max(
+
+          1,
+
+          Math.min(
+
+            Number(
+              event.target.value
+            ) ||
+            1,
+
+            totalSlots
+
+          )
+
+        );
+
+    }
+
+  );
+
+
+  $('#btnAutoFill').addEventListener(
+
+    'click',
+
+    () => {
+
+      autoFill(
+
+        label.id,
+
+        state.quantity
+
+      );
+
+    }
+
+  );
+
+
+  $('#btnFillAllEmpty').addEventListener(
+
+    'click',
+
+    () => {
+
+      const emptySlots =
+        state.slots.filter(
+          slot =>
+            !slot.labelId
+        ).length;
+
+
+      autoFill(
+        label.id,
+        emptySlots
+      );
+
+    }
+
+  );
+
+}
+
+
+/* ==========================================================================
+   AUTO FILL
+   ========================================================================== */
+
+function autoFill(
+  labelId,
+  quantity
+) {
+
+  const available = [];
+
+
+  for (
+
+    let i =
+      state.startSlotIndex;
+
+    i <
+      state.slots.length;
+
+    i++
+
+  ) {
+
+    if (
+      !state.slots[i].labelId
+    ) {
+
+      available.push(
+        i
+      );
+
+    }
+
+  }
+
+
+  const toFill =
+    Math.min(
+      quantity,
+      available.length
+    );
+
+
+  for (
+
+    let k = 0;
+
+    k <
+      toFill;
+
+    k++
+
+  ) {
+
+    state.slots[
+      available[k]
+    ] = {
+
+      ...emptySlot(),
+
+      labelId
+
+    };
+
+  }
+
+
+  render();
+
+
+  if (
+    quantity >
+    available.length
+  ) {
+
+    showToast(
+
+      `Apenas ${toFill} slots estavam disponíveis.`,
+
+      'error'
+
+    );
+
+  } else {
+
+    showToast(
+
+      `${toFill} etiqueta(s) adicionada(s).`,
+
+      'success'
+
+    );
+
+  }
+
+}
+
+
+/* ==========================================================================
+   ADJUSTMENT PANEL
+   ========================================================================== */
+
+const FIT_LABELS = {
+
+  contain:
+    'Ajustar proporcionalmente',
+
+  fill:
+    'Preencher o slot',
+
+  original:
+    'Manter tamanho original'
+
+};
+
+
+function renderAdjustPanel() {
+
+  const index =
+    state.activeSlotIndex;
+
+
+  const slot =
+
+    index !== null
+
+      ? state.slots[index]
+
+      : null;
+
+
+  if (
+    !slot ||
+    !slot.labelId
+  ) {
+
+    adjustPanelEl.innerHTML = `
+
+      <span
+        style="
+          font-size:11px;
+          color:var(--ink-tertiary);
+          line-height:1.5;
+        "
+      >
+
+        Clique em uma etiqueta preenchida
+        na folha para ajustar sua posição.
+
+      </span>
+
+    `;
+
+    return;
+
+  }
+
+
+  adjustPanelEl.innerHTML = `
+
+    <label class="field">
+
+      <span class="field-label">
+        Modo de encaixe
+      </span>
+
+      <div
+        class="fit-choice"
+        id="fitChoice"
+      >
+
+        ${Object.keys(
+          FIT_LABELS
+        ).map(
+
+          mode => `
+
+            <button
+              data-mode="${mode}"
+              class="${
+                slot.fitMode ===
+                mode
+
+                  ? 'selected'
+
+                  : ''
+              }"
+            >
+
+              ${FIT_LABELS[mode]}
+
+            </button>
+
+          `
+
+        ).join('')}
+
+      </div>
+
+    </label>
+
+
+    <label class="field">
+
+      <span class="field-label">
+        Escala (%)
+      </span>
+
+      <input
+        type="number"
+        id="scaleInput"
+        min="10"
+        max="300"
+        step="5"
+        value="${Math.round(
+          slot.scale *
+          100
+        )}"
+      >
+
+    </label>
+
+
+    <div class="grid2">
+
+      <label class="field">
+
+        <span class="field-label">
+          Offset X (mm)
+        </span>
+
+        <input
+          type="number"
+          id="offXInput"
+          step="0.5"
+          value="${slot.offsetXmm}"
+        >
+
+      </label>
+
+
+      <label class="field">
+
+        <span class="field-label">
+          Offset Y (mm)
+        </span>
+
+        <input
+          type="number"
+          id="offYInput"
+          step="0.5"
+          value="${slot.offsetYmm}"
+        >
+
+      </label>
+
+    </div>
+
+
+    <div class="nudge">
+
+      <span></span>
+
+      <button id="nUp">
+        ↑
+      </button>
+
+      <span></span>
+
+
+      <button id="nLeft">
+        ←
+      </button>
+
+      <button id="nReset">
+        ⟲
+      </button>
+
+      <button id="nRight">
+        →
+      </button>
+
+
+      <span></span>
+
+      <button id="nDown">
+        ↓
+      </button>
+
+      <span></span>
+
+    </div>
+
+  `;
+
+
+  $('#fitChoice')
+    .addEventListener(
+
+      'click',
+
+      event => {
+
+        const button =
+          event.target.closest(
+            'button'
+          );
+
+
+        if (
+          !button
+        ) return;
+
+
+        slot.fitMode =
+          button.dataset.mode;
+
+
+        render();
+
+      }
+
+    );
+
+
+  $('#scaleInput')
+    .addEventListener(
+
+      'input',
+
+      event => {
+
+        slot.scale =
+
+          (
+            Number(
+              event.target.value
+            ) ||
+            100
+          ) /
+          100;
+
+
+        renderSheet();
+
+      }
+
+    );
+
+
+  $('#offXInput')
+    .addEventListener(
+
+      'input',
+
+      event => {
+
+        slot.offsetXmm =
+
+          Number(
+            event.target.value
+          ) ||
+          0;
+
+
+        renderSheet();
+
+      }
+
+    );
+
+
+  $('#offYInput')
+    .addEventListener(
+
+      'input',
+
+      event => {
+
+        slot.offsetYmm =
+
+          Number(
+            event.target.value
+          ) ||
+          0;
+
+
+        renderSheet();
+
+      }
+
+    );
+
+
+  $('#nUp').onclick =
+    () => {
+
+      slot.offsetYmm -=
+        .5;
+
+      render();
+
+    };
+
+
+  $('#nDown').onclick =
+    () => {
+
+      slot.offsetYmm +=
+        .5;
+
+      render();
+
+    };
+
+
+  $('#nLeft').onclick =
+    () => {
+
+      slot.offsetXmm -=
+        .5;
+
+      render();
+
+    };
+
+
+  $('#nRight').onclick =
+    () => {
+
+      slot.offsetXmm +=
+        .5;
+
+      render();
+
+    };
+
+
+  $('#nReset').onclick =
+    () => {
+
+      slot.offsetXmm =
+        0;
+
+      slot.offsetYmm =
+        0;
+
+      slot.scale =
+        1;
+
+      render();
+
+    };
+
+}
+
+
+/* ==========================================================================
+   SHEET
+   ========================================================================== */
+
+function renderSheet() {
+
+  sheetEl.style.width =
+    TEMPLATE.pageWidth +
+    'mm';
+
+
+  sheetEl.style.height =
+    TEMPLATE.pageHeight +
+    'mm';
+
+
+  sheetEl.style.transform =
+
+    `scale(${state.zoom})`;
+
+
+  sheetOuter.style.width =
+
+    `calc(${TEMPLATE.pageWidth}mm * ${state.zoom})`;
+
+
+  sheetOuter.style.height =
+
+    `calc(${TEMPLATE.pageHeight}mm * ${state.zoom})`;
+
+
+  sheetEl.innerHTML =
+    '';
+
+
+  const labelById =
+    new Map(
+
+      state.labels.map(
+
+        label => [
+          label.id,
+          label
+        ]
+
+      )
+
+    );
+
+
+  state.slots.forEach(
+
+    (slot, index) => {
+
+      const pos =
+        getSlotPosition(
+          index
+        );
+
+
+      const div =
+        document.createElement(
+          'div'
+        );
+
+
+      div.className =
+
+        'slot' +
+
+        (
+          slot.labelId
+            ? ' filled'
+            : ''
+        ) +
+
+        (
+          state.activeSlotIndex ===
+          index
+
+            ? ' active'
+
+            : ''
+        ) +
+
+        (
+          index <
+          state.startSlotIndex
+
+            ? ' before-start'
+
+            : ''
+        );
+
+
+      div.style.left =
+        pos.x +
+        'mm';
+
+
+      div.style.top =
+        pos.y +
+        'mm';
+
+
+      div.style.width =
+        pos.width +
+        'mm';
+
+
+      div.style.height =
+        pos.height +
+        'mm';
+
+
+      div.draggable =
+        !!slot.labelId;
+
+
+      if (
+        !slot.labelId
+      ) {
+
+        div.innerHTML = `
+
+          <div class="slot-placeholder">
+
+            +
+
+            <small>
+              SLOT ${
+                String(
+                  index + 1
+                ).padStart(
+                  2,
+                  '0'
+                )
+              }
+            </small>
+
+          </div>
+
+        `;
+
+      } else {
+
+        const label =
+          labelById.get(
+            slot.labelId
+          );
+
+
+        if (
+          label
+        ) {
+
+          const dr =
+            computeDrawRect(
+
+              pos.width,
+
+              pos.height,
+
+              label.naturalWidth,
+
+              label.naturalHeight,
+
+              slot.fitMode,
+
+              slot.scale
+
+            );
+
+
+          const img =
+            document.createElement(
+              'img'
+            );
+
+
+          img.className =
+            'label-img';
+
+
+          img.src =
+            label.imageDataUrl;
+
+
+          img.style.left =
+            dr.x +
+            'mm';
+
+
+          img.style.top =
+            dr.y +
+            'mm';
+
+
+          img.style.width =
+            dr.width +
+            'mm';
+
+
+          img.style.height =
+            dr.height +
+            'mm';
+
+
+          div.appendChild(
+            img
+          );
+
+
+          div.insertAdjacentHTML(
+
+            'beforeend',
+
+            `
+
+              <span class="slot-number">
+
+                ${String(
+                  index + 1
+                ).padStart(
+                  2,
+                  '0'
+                )}
+
+              </span>
+
+            `
+
+          );
+
+
+          if (
+            aspectMismatch(
+
+              pos.width,
+
+              pos.height,
+
+              label.naturalWidth,
+
+              label.naturalHeight
+
+            )
+          ) {
+
+            div.insertAdjacentHTML(
+
+              'beforeend',
+
+              `
+
+                <span
+                  class="warning"
+                  title="A proporção da etiqueta é diferente da área da folha."
+                >
+                  ⚠
+                </span>
+
+              `
+
+            );
+
+          }
+
+        }
+
+      }
+
+
+      div.addEventListener(
+
+        'click',
+
+        event => {
+
+          event.stopPropagation();
+
+
+          state.activeSlotIndex =
+            index;
+
+
+          if (
+            slot.labelId
+          ) {
+
+            toggleSlotMenu(
+
+              div,
+
+              index
+
+            );
+
+          } else if (
+            state.selectedLabelId
+          ) {
+
+            state.slots[index] = {
+
+              ...emptySlot(),
+
+              labelId:
+                state.selectedLabelId
+
+            };
+
+
+            render();
+
+
+            showToast(
+
+              'Etiqueta adicionada ao slot.',
+
+              'success'
+
+            );
+
+          } else {
+
+            render();
+
+          }
+
+        }
+
+      );
+
+
+      div.addEventListener(
+
+        'dragstart',
+
+        event => {
+
+          event.dataTransfer.setData(
+
+            'text/slot-index',
+
+            String(
+              index
+            )
+
+          );
+
+        }
+
+      );
+
+
+      div.addEventListener(
+
+        'dragover',
+
+        event => {
+
+          event.preventDefault();
+
+          div.classList.add(
+            'dragover'
+          );
+
+        }
+
+      );
+
+
+      div.addEventListener(
+
+        'dragleave',
+
+        () => {
+
+          div.classList.remove(
+            'dragover'
+          );
+
+        }
+
+      );
+
+
+      div.addEventListener(
+
+        'drop',
+
+        event => {
+
+          event.preventDefault();
+
+
+          div.classList.remove(
+            'dragover'
+          );
+
+
+          const from =
+            Number(
+
+              event.dataTransfer
+                .getData(
+                  'text/slot-index'
+                )
+
+            );
+
+
+          if (
+            !Number.isNaN(
+              from
+            )
+          ) {
+
+            [
+
+              state.slots[from],
+
+              state.slots[index]
+
+            ] = [
+
+              state.slots[index],
+
+              state.slots[from]
+
+            ];
+
+
+            render();
+
+          }
+
+        }
+
+      );
+
+
+      sheetEl.appendChild(
+        div
+      );
+
+    }
+
+  );
+
+}
+
+
+/* ==========================================================================
+   SLOT MENU
+   ========================================================================== */
+
+function toggleSlotMenu(
+  slotDiv,
+  index
+) {
+
+  const existing =
+    slotDiv.querySelector(
+      '.slot-menu'
+    );
+
+
+  if (
+    existing
+  ) {
+
+    existing.remove();
+
+    return;
+
+  }
+
+
+  document
+    .querySelectorAll(
+      '.slot-menu'
+    )
+    .forEach(
+      menu =>
+        menu.remove()
+    );
+
+
+  const menu =
+    document.createElement(
+      'div'
+    );
+
+
+  menu.className =
+    'slot-menu';
+
+
+  let html =
+    '';
+
+
+  if (
+    state.selectedLabelId
+  ) {
+
+    html += `
+
+      <button data-action="replace">
+        Substituir etiqueta
+      </button>
+
+    `;
+
+  }
+
+
+  html += `
+
+    <button data-action="duplicate">
+      Duplicar
+    </button>
+
+    <button data-action="remove"
+            class="danger">
+      Remover
+    </button>
+
+  `;
+
+
+  menu.innerHTML =
+    html;
+
+
+  menu.addEventListener(
+
+    'click',
+
+    event => {
+
+      event.stopPropagation();
+
+
+      const action =
+        event.target.dataset.action;
+
+
+      if (
+        action ===
+        'replace'
+      ) {
+
+        state.slots[index] = {
+
+          ...emptySlot(),
+
+          labelId:
+            state.selectedLabelId
+
+        };
+
+      }
+
+
+      if (
+        action ===
+        'duplicate'
+      ) {
+
+        const emptyIndex =
+          state.slots.findIndex(
+
+            slot =>
+              !slot.labelId
+
+          );
+
+
+        if (
+          emptyIndex ===
+          -1
+        ) {
+
+          showToast(
+
+            'Não existem slots vazios.',
+
+            'error'
+
+          );
+
+          return;
+
+        }
+
+
+        state.slots[
+          emptyIndex
+        ] = {
+
+          ...state.slots[index]
+
+        };
+
+      }
+
+
+      if (
+        action ===
+        'remove'
+      ) {
+
+        state.slots[index] =
+          emptySlot();
+
+      }
+
+
+      render();
+
+    }
+
+  );
+
+
+  slotDiv.appendChild(
+    menu
+  );
+
+}
+
+
+document.addEventListener(
+
+  'click',
+
+  () => {
+
+    document
+      .querySelectorAll(
+        '.slot-menu'
+      )
+      .forEach(
+        menu =>
+          menu.remove()
+      );
+
+  }
+
+);
+
+
+/* ==========================================================================
+   IMAGE HELPERS
+   ========================================================================== */
+
+function readAsDataUrl(
+  file
+) {
+
+  return new Promise(
+
+    (
+      resolve,
+      reject
+    ) => {
+
+      const reader =
+        new FileReader();
+
+
+      reader.onload =
+        () =>
+          resolve(
+            reader.result
+          );
+
+
+      reader.onerror =
+        reject;
+
+
+      reader.readAsDataURL(
+        file
+      );
+
+    }
+
+  );
+
+}
+
+
+function loadImg(
+  src
+) {
+
+  return new Promise(
+
+    (
+      resolve,
+      reject
+    ) => {
+
+      const img =
+        new Image();
+
+
+      img.onload =
+        () =>
+          resolve(
+            img
+          );
+
+
+      img.onerror =
+        reject;
+
+
+      img.src =
+        src;
+
+    }
+
+  );
+
+}
+
+
+function rasterizeSvg(
+  svgText
+) {
+
+  return new Promise(
+
+    (
+      resolve,
+      reject
+    ) => {
+
+      const blob =
+        new Blob(
+
+          [
+            svgText
+          ],
+
+          {
+            type:
+              'image/svg+xml;charset=utf-8'
+          }
+
+        );
+
+
+      const url =
+        URL.createObjectURL(
+          blob
+        );
+
+
+      const img =
+        new Image();
+
+
+      img.onload =
+        () => {
+
+          const scale =
+            300 /
+            96;
+
+
+          const canvas =
+            document.createElement(
+              'canvas'
+            );
+
+
+          canvas.width =
+
+            Math.max(
+
+              1,
+
+              Math.round(
+
+                (
+                  img.naturalWidth ||
+                  300
+                ) *
+                scale
+
+              )
+
+            );
+
+
+          canvas.height =
+
+            Math.max(
+
+              1,
+
+              Math.round(
+
+                (
+                  img.naturalHeight ||
+                  150
+                ) *
+                scale
+
+              )
+
+            );
+
+
+          const ctx =
+            canvas.getContext(
+              '2d'
+            );
+
+
+          ctx.drawImage(
+
+            img,
+
+            0,
+
+            0,
+
+            canvas.width,
+
+            canvas.height
+
+          );
+
+
+          URL.revokeObjectURL(
+            url
+          );
+
+
+          resolve(
+
+            canvas.toDataURL(
+              'image/png'
+            )
+
+          );
+
+        };
+
+
+      img.onerror =
+        () => {
+
+          URL.revokeObjectURL(
+            url
+          );
+
+
+          reject(
+
+            new Error(
+              'Erro ao processar SVG.'
+            )
+
+          );
+
+        };
+
+
+      img.src =
+        url;
+
+    }
+
+  );
+
+}
+
+
+/* ==========================================================================
+   ADD IMAGE LABEL
+   ========================================================================== */
+
+async function processImageFile(
+  file
+) {
+
+  try {
+
+    const isSvg =
+
+      file.type ===
+      'image/svg+xml' ||
+
+      file.name
+        .toLowerCase()
+        .endsWith(
+          '.svg'
+        );
+
+
+    let dataUrl;
+
+
+    if (
+      isSvg
+    ) {
+
+      const svgText =
+        await file.text();
+
+
+      dataUrl =
+        await rasterizeSvg(
+          svgText
+        );
+
+    } else {
+
+      dataUrl =
+        await readAsDataUrl(
+          file
+        );
+
+    }
+
+
+    const img =
+      await loadImg(
+        dataUrl
+      );
+
+
+    const id =
+      uid(
+        'label'
+      );
+
+
+    state.labels.push({
+
+      id,
+
+      name:
+        file.name,
+
+      imageDataUrl:
+        dataUrl,
+
+      naturalWidth:
+        img.naturalWidth,
+
+      naturalHeight:
+        img.naturalHeight,
+
+      sourceType:
+        isSvg
+          ? 'SVG'
+          : 'Imagem'
+
+    });
+
+
+    state.selectedLabelId =
+      id;
+
+
+    render();
+
+
+    showToast(
+
+      `${file.name} adicionada.`,
+
+      'success'
+
+    );
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      error
+    );
+
+
+    showToast(
+
+      `Não foi possível importar ${file.name}.`,
+
+      'error'
+
+    );
+
+  }
+
+}
+
+
+/* ==========================================================================
+   PDF IMPORT
+   ========================================================================== */
+
+let pdfImportQueue = [];
+
+let pdfSelectedPages =
+  new Set();
+
+
+async function openPdfImport(
+  file
+) {
+
+  try {
+
+    showToast(
+      'Processando PDF...'
+    );
+
+
+    const buffer =
+      await file.arrayBuffer();
+
+
+    const pdf =
+      await pdfjsLib.getDocument(
+        {
+          data:
+            buffer
+        }
+      ).promise;
+
+
+    pdfImportQueue = [];
+
+
+    pdfSelectedPages =
+      new Set();
+
+
+    const pagesContainer =
+      $('#pdfPages');
+
+
+    pagesContainer.innerHTML =
+      '';
+
+
+    $('#pdfModalSubtitle')
+      .textContent =
+
+      `${file.name} · ${pdf.numPages} página(s)`;
+
+
+    for (
+
+      let pageNumber =
+        1;
+
+      pageNumber <=
+        pdf.numPages;
+
+      pageNumber++
+
+    ) {
+
+      const page =
+        await pdf.getPage(
+          pageNumber
+        );
+
+
+      const viewport =
+        page.getViewport(
+          {
+            scale:
+              1.5
+          }
+        );
+
+
+      const canvas =
+        document.createElement(
+          'canvas'
+        );
+
+
+      const context =
+        canvas.getContext(
+          '2d'
+        );
+
+
+      canvas.width =
+        viewport.width;
+
+
+      canvas.height =
+        viewport.height;
+
+
+      await page.render(
+
+        {
+
+          canvasContext:
+            context,
+
+          viewport
+
+        }
+
+      ).promise;
+
+
+      const imageDataUrl =
+        canvas.toDataURL(
+          'image/png'
+        );
+
+
+      const pageData = {
+
+        pageNumber,
+
+        imageDataUrl,
+
+        width:
+          canvas.width,
+
+        height:
+          canvas.height,
+
+        name:
+
+          `${file.name} · Página ${pageNumber}`
+
+      };
+
+
+      pdfImportQueue.push(
+        pageData
+      );
+
+
+      const card =
+        document.createElement(
+          'div'
+        );
+
+
+      card.className =
+        'pdf-page';
+
+
+      card.dataset.page =
+        pageNumber;
+
+
+      card.innerHTML = `
+
+        <div
+          class="pdf-preview"
+        ></div>
+
+        <div class="pdf-page-footer">
+
+          <span>
+            Página ${pageNumber}
+          </span>
+
+          <span class="pdf-check">
+            ✓
+          </span>
+
+        </div>
+
+      `;
+
+
+      card
+        .querySelector(
+          '.pdf-preview'
+        )
+        .appendChild(
+          canvas
+        );
+
+
+      card.addEventListener(
+
+        'click',
+
+        () => {
+
+          if (
+            pdfSelectedPages.has(
+              pageNumber
+            )
+          ) {
+
+            pdfSelectedPages.delete(
+              pageNumber
+            );
+
+
+            card.classList.remove(
+              'selected'
+            );
+
+          } else {
+
+            pdfSelectedPages.add(
+              pageNumber
+            );
+
+
+            card.classList.add(
+              'selected'
+            );
+
+          }
+
+
+          updatePdfSelectionInfo();
+
+        }
+
+      );
+
+
+      pagesContainer.appendChild(
+        card
+      );
+
+    }
+
+
+    $('#pdfModal')
+      .classList.add(
+        'open'
+      );
+
+
+    updatePdfSelectionInfo();
+
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      error
+    );
+
+
+    showToast(
+
+      'Não foi possível abrir o PDF.',
+
+      'error'
+
+    );
+
+  }
+
+}
+
+
+/* ==========================================================================
+   PDF SELECTION INFO
+   ========================================================================== */
+
+function updatePdfSelectionInfo() {
+
+  const count =
+    pdfSelectedPages.size;
+
+
+  $('#pdfSelectionInfo')
+    .textContent =
+
+    count === 0
+
+      ? 'Nenhuma página selecionada'
+
+      : `${count} página(s) selecionada(s)`;
+
+}
+
+
+/* ==========================================================================
+   IMPORT PDF PAGES
+   ========================================================================== */
+
+async function importSelectedPdfPages() {
+
+  if (
+    !pdfSelectedPages.size
+  ) {
+
+    showToast(
+
+      'Selecione pelo menos uma página.',
+
+      'error'
+
+    );
+
+    return;
+
+  }
+
+
+  const selected =
+    pdfImportQueue.filter(
+
+      page =>
+        pdfSelectedPages.has(
+          page.pageNumber
+        )
+
+    );
+
+
+  for (
+    const page
+    of selected
+  ) {
+
+    const id =
+      uid(
+        'pdf'
+      );
+
+
+    state.labels.push({
+
+      id,
+
+      name:
+        page.name,
+
+      imageDataUrl:
+        page.imageDataUrl,
+
+      naturalWidth:
+        page.width,
+
+      naturalHeight:
+        page.height,
+
+      sourceType:
+        'PDF'
+
+    });
+
+  }
+
+
+  const last =
+    state.labels[
+      state.labels.length -
+      1
+    ];
+
+
+  if (
+    last
+  ) {
+
+    state.selectedLabelId =
+      last.id;
+
+  }
+
+
+  closePdfModal();
+
+
+  render();
+
+
+  showToast(
+
+    `${selected.length} página(s) importada(s) com sucesso.`,
+
+    'success'
+
+  );
+
+}
+
+
+/* ==========================================================================
+   CLOSE PDF
+   ========================================================================== */
+
+function closePdfModal() {
+
+  $('#pdfModal')
+    .classList.remove(
+      'open'
+    );
+
+
+  pdfImportQueue =
+    [];
+
+
+  pdfSelectedPages =
+    new Set();
+
+}
+
+
+/* ==========================================================================
+   FILE IMPORT
+   ========================================================================== */
+
+const fileInput =
+  $('#fileInput');
+
+
+const dropzone =
+  $('#dropzone');
+
+
+async function processFile(
+  file
+) {
+
+  if (
+    file.type ===
+    'application/pdf' ||
+
+    file.name
+      .toLowerCase()
+      .endsWith(
+        '.pdf'
+      )
+
+  ) {
+
+    await openPdfImport(
+      file
+    );
+
+    return;
+
+  }
+
+
+  if (
+    file.type.startsWith(
+      'image/'
+    ) ||
+
+    file.name
+      .toLowerCase()
+      .endsWith(
+        '.svg'
+      )
+
+  ) {
+
+    await processImageFile(
+      file
+    );
+
+    return;
+
+  }
+
+
+  showToast(
+
+    `Formato não suportado: ${file.name}`,
+
+    'error'
+
+  );
+
+}
+
+
+dropzone.addEventListener(
+
+  'click',
+
+  () => {
+
+    fileInput.click();
+
+  }
+
+);
+
+
+fileInput.addEventListener(
+
+  'change',
+
+  async event => {
+
+    const files =
+      [
+        ...event.target.files
+      ];
+
+
+    event.target.value =
+      '';
+
+
+    for (
+      const file
+      of files
+    ) {
+
+      await processFile(
+        file
+      );
+
+    }
+
+  }
+
+);
+
+
+dropzone.addEventListener(
+
+  'dragover',
+
+  event => {
+
+    event.preventDefault();
+
+    dropzone.classList.add(
+      'drag'
+    );
+
+  }
+
+);
+
+
+dropzone.addEventListener(
+
+  'dragleave',
+
+  () => {
+
+    dropzone.classList.remove(
+      'drag'
+    );
+
+  }
+
+);
+
+
+dropzone.addEventListener(
+
+  'drop',
+
+  async event => {
+
+    event.preventDefault();
+
+
+    dropzone.classList.remove(
+      'drag'
+    );
+
+
+    const files =
+      [
+        ...event.dataTransfer.files
+      ];
+
+
+    for (
+      const file
+      of files
+    ) {
+
+      await processFile(
+        file
+      );
+
+    }
+
+  }
+
+);
+
+
+/* ==========================================================================
+   PASTE
+   ========================================================================== */
+
+window.addEventListener(
+
+  'paste',
+
+  event => {
+
+    const items =
+      event.clipboardData &&
+      event.clipboardData.items;
+
+
+    if (
+      !items
+    ) return;
+
+
+    for (
+      const item
+      of items
+    ) {
+
+      if (
+        item.type.startsWith(
+          'image/'
+        )
+      ) {
+
+        const file =
+          item.getAsFile();
+
+
+        if (
+          file
+        ) {
+
+          processImageFile(
+            file
+          );
+
+        }
+
+
+        break;
+
+      }
+
+    }
+
+  }
+
+);
+
+
+/* ==========================================================================
+   PDF MODAL EVENTS
+   ========================================================================== */
+
+$('#pdfModalClose')
+  .addEventListener(
+
+    'click',
+
+    closePdfModal
+
+  );
+
+
+$('#pdfModal')
+  .addEventListener(
+
+    'click',
+
+    event => {
+
+      if (
+        event.target ===
+        $('#pdfModal')
+      ) {
+
+        closePdfModal();
+
+      }
+
+    }
+
+  );
+
+
+$('#pdfSelectAll')
+  .addEventListener(
+
+    'click',
+
+    () => {
+
+      const allSelected =
+        pdfSelectedPages.size ===
+        pdfImportQueue.length;
+
+
+      pdfSelectedPages =
+        new Set();
+
+
+      document
+        .querySelectorAll(
+          '.pdf-page'
+        )
+        .forEach(
+
+          card => {
+
+            const page =
+              Number(
+                card.dataset.page
+              );
+
+
+            if (
+              !allSelected
+            ) {
+
+              pdfSelectedPages.add(
+                page
+              );
+
+
+              card.classList.add(
+                'selected'
+              );
+
+            } else {
+
+              card.classList.remove(
+                'selected'
+              );
+
+            }
+
+          }
+
+        );
+
+
+      updatePdfSelectionInfo();
+
+    }
+
+  );
+
+
+$('#pdfImportSelected')
+  .addEventListener(
+
+    'click',
+
+    importSelectedPdfPages
+
+  );
+
+
+/* ==========================================================================
+   START SLOT
+   ========================================================================== */
+
+$('#startSlot')
+  .addEventListener(
+
+    'input',
+
+    event => {
+
+      const value =
+
+        Math.max(
+
+          1,
+
+          Math.min(
+
+            Number(
+              event.target.value
+            ) ||
+            1,
+
+            totalSlots
+
+          )
+
+        );
+
+
+      state.startSlotIndex =
+        value -
+        1;
+
+
+      renderStats();
+
+      renderSheet();
+
+    }
+
+  );
+
+
+/* ==========================================================================
+   CALIBRATION
+   ========================================================================== */
+
+function saveCalibration() {
+
+  try {
+
+    localStorage.setItem(
+
+      'lsd-calibration',
+
+      JSON.stringify(
+        state.calibration
+      )
+
+    );
+
+  } catch (
+    error
+  ) {}
+
+}
+
+
+$('#calX')
+  .addEventListener(
+
+    'input',
+
+    event => {
+
+      state.calibration.x =
+
+        Number(
+          event.target.value
+        ) ||
+        0;
+
+
+      saveCalibration();
+
+      renderSheet();
+
+    }
+
+  );
+
+
+$('#calY')
+  .addEventListener(
+
+    'input',
+
+    event => {
+
+      state.calibration.y =
+
+        Number(
+          event.target.value
+        ) ||
+        0;
+
+
+      saveCalibration();
+
+      renderSheet();
+
+    }
+
+  );
+
+
+/* ==========================================================================
+   MODE
+   ========================================================================== */
+
+$('#modeEditor')
+  .addEventListener(
+
+    'click',
+
+    () => {
+
+      state.mode =
+        'editor';
+
+      render();
+
+    }
+
+  );
+
+
+$('#modePrint')
+  .addEventListener(
+
+    'click',
+
+    () => {
+
+      state.mode =
+        'print';
+
+      render();
+
+    }
+
+  );
+
+
+/* ==========================================================================
+   ZOOM
+   ========================================================================== */
+
+$('#zoomIn')
+  .addEventListener(
+
+    'click',
+
+    () => {
+
+      state.zoom =
+
+        Math.min(
+
+          2,
+
+          state.zoom +
+          .15
+
+        );
+
+
+      render();
+
+    }
+
+  );
+
+
+$('#zoomOut')
+  .addEventListener(
+
+    'click',
+
+    () => {
+
+      state.zoom =
+
+        Math.max(
+
+          .4,
+
+          state.zoom -
+          .15
+
+        );
+
+
+      render();
+
+    }
+
+  );
+
+
+/* ==========================================================================
+   CLEAR
+   ========================================================================== */
+
+$('#btnClear')
+  .addEventListener(
+
+    'click',
+
+    () => {
+
+      if (
+        !confirm(
+          'Deseja limpar todas as etiquetas da folha?'
+        )
+      ) return;
+
+
+      state.slots =
+        Array.from(
+
+          {
+            length:
+              totalSlots
+          },
+
+          emptySlot
+
+        );
+
+
+      state.activeSlotIndex =
+        null;
+
+
+      render();
+
+
+      showToast(
+        'Folha limpa.'
+      );
+
+    }
+
+  );
+
+
+/* ==========================================================================
+   SAVE PROJECT
+   ========================================================================== */
+
+$('#btnSave')
+  .addEventListener(
+
+    'click',
+
+    () => {
+
+      const data = {
+
+        version:
+          2,
+
+        template:
+          TEMPLATE,
+
+        labels:
+          state.labels,
+
+        slots:
+          state.slots,
+
+        startSlotIndex:
+          state.startSlotIndex,
+
+        calibration:
+          state.calibration
+
+      };
+
+
+      const blob =
+        new Blob(
+
+          [
+            JSON.stringify(
+              data,
+              null,
+              2
+            )
+          ],
+
+          {
+            type:
+              'application/json'
+          }
+
+        );
+
+
+      const url =
+        URL.createObjectURL(
+          blob
+        );
+
+
+      const link =
+        document.createElement(
+          'a'
+        );
+
+
+      link.href =
+        url;
+
+
+      link.download =
+        'label-project.json';
+
+
+      link.click();
+
+
+      URL.revokeObjectURL(
+        url
+      );
+
+
+      showToast(
+
+        'Projeto salvo com sucesso.',
+
+        'success'
+
+      );
+
+    }
+
+  );
+
+
+/* ==========================================================================
+   IMPORT PROJECT
+   ========================================================================== */
+
+$('#btnImport')
+  .addEventListener(
+
+    'click',
+
+    () => {
+
+      $('#fileImport').click();
+
+    }
+
+  );
+
+
+$('#fileImport')
+  .addEventListener(
+
+    'change',
+
+    async event => {
+
+      const file =
+        event.target.files[0];
+
+
+      event.target.value =
+        '';
+
+
+      if (
+        !file
+      ) return;
+
+
+      try {
+
+        const parsed =
+          JSON.parse(
+
+            await file.text()
+
+          );
+
+
+        state.labels =
+          parsed.labels ||
+          [];
+
+
+        state.slots =
+          parsed.slots ||
+          Array.from(
+
+            {
+              length:
+                totalSlots
+            },
+
+            emptySlot
+
+          );
+
+
+        state.startSlotIndex =
+          parsed.startSlotIndex ||
+          0;
+
+
+        state.calibration =
+          parsed.calibration ||
+          {
+            x:0,
+            y:0
+          };
+
+
+        state.selectedLabelId =
+          state.labels[0]?.id ||
+          null;
+
+
+        render();
+
+
+        showToast(
+
+          'Projeto importado.',
+
+          'success'
+
+        );
+
+      } catch (
+        error
+      ) {
+
+        console.error(
+          error
+        );
+
+
+        showToast(
+
+          'Arquivo de projeto inválido.',
+
+          'error'
+
+        );
+
+      }
+
+    }
+
+  );
+
+
+/* ==========================================================================
+   PRINT
+   ========================================================================== */
+
+$('#btnPrint')
+  .addEventListener(
+
+    'click',
+
+    () => {
+
+      state.mode =
+        'print';
+
+
+      render();
+
+
+      setTimeout(
+
+        () => {
+
+          window.print();
+
+        },
+
+        100
+
+      );
+
+    }
+
+  );
+
+
+/* ==========================================================================
+   EXPORT PDF
+   ========================================================================== */
+
+$('#btnExportPdf')
+  .addEventListener(
+
+    'click',
+
+    async () => {
+
+      const button =
+        $('#btnExportPdf');
+
+
+      button.disabled =
+        true;
+
+
+      button.textContent =
+        'Gerando...';
+
+
+      try {
+
+        await exportPdf();
+
+
+        showToast(
+
+          'PDF gerado com sucesso.',
+
+          'success'
+
+        );
+
+      } catch (
+        error
+      ) {
+
+        console.error(
+          error
+        );
+
+
+        showToast(
+
+          'Erro ao gerar PDF.',
+
+          'error'
+
+        );
+
+      } finally {
+
+        button.disabled =
+          false;
+
+
+        button.textContent =
+          'Exportar PDF';
+
+      }
+
+    }
+
+  );
+
+
+/* ==========================================================================
+   EXPORT PDF
+   ========================================================================== */
+
+async function exportPdf() {
+
+  const doc =
+    new jsPDF(
+
+      {
+
+        unit:
+          'mm',
+
+        format:
+          [
+            TEMPLATE.pageWidth,
+
+            TEMPLATE.pageHeight
+          ]
+
+      }
+
+    );
+
+
+  const labelById =
+    new Map(
+
+      state.labels.map(
+
+        label => [
+
+          label.id,
+
+          label
+
+        ]
+
+      )
+
+    );
+
+
+  for (
+
+    let i =
+      0;
+
+    i <
+      state.slots.length;
+
+    i++
+
+  ) {
+
+    const slot =
+      state.slots[i];
+
+
+    if (
+      !slot.labelId
+    ) continue;
+
+
+    const label =
+      labelById.get(
+        slot.labelId
+      );
+
+
+    if (
+      !label
+    ) continue;
+
+
+    const origin =
+      getFinalOrigin(
+
+        i,
+
+        slot
+
+      );
+
+
+    const draw =
+      computeDrawRect(
+
+        TEMPLATE.labelWidth,
+
+        TEMPLATE.labelHeight,
+
+        label.naturalWidth,
+
+        label.naturalHeight,
+
+        slot.fitMode,
+
+        slot.scale
+
+      );
+
+
+    let format =
+      'PNG';
+
+
+    if (
+      label.imageDataUrl
+        .startsWith(
+          'data:image/jpeg'
+        )
+    ) {
+
+      format =
+        'JPEG';
+
+    }
+
+
+    doc.addImage(
+
+      label.imageDataUrl,
+
+      format,
+
+      origin.x +
+        draw.x,
+
+      origin.y +
+        draw.y,
+
+      draw.width,
+
+      draw.height,
+
+      undefined,
+
+      'FAST'
+
+    );
+
+  }
+
+
+  doc.save(
+
+    'folha-de-etiquetas.pdf'
+
+  );
+
+}
+
+
+/* ==========================================================================
+   CALIBRATION SHEET
+   ========================================================================== */
+
+$('#btnCalSheet')
+  .addEventListener(
+
+    'click',
+
+    () => {
+
+      const doc =
+        new jsPDF(
+
+          {
+
+            unit:
+              'mm',
+
+            format:
+              [
+                TEMPLATE.pageWidth,
+
+                TEMPLATE.pageHeight
+              ]
+
+          }
+
+        );
+
+
+      doc.setDrawColor(
+        180,
+        30,
+        30
+      );
+
+
+      doc.setLineWidth(
+        .15
+      );
+
+
+      for (
+
+        let i =
+          0;
+
+        i <
+          totalSlots;
+
+        i++
+
+      ) {
+
+        const origin =
+          getFinalOrigin(
+
+            i,
+
+            emptySlot()
+
+          );
+
+
+        doc.rect(
+
+          origin.x,
+
+          origin.y,
+
+          TEMPLATE.labelWidth,
+
+          TEMPLATE.labelHeight
+
+        );
+
+
+        const centerX =
+
+          origin.x +
+          TEMPLATE.labelWidth /
+          2;
+
+
+        const centerY =
+
+          origin.y +
+          TEMPLATE.labelHeight /
+          2;
+
+
+        doc.line(
+
+          centerX -
+            2,
+
+          centerY,
+
+          centerX +
+            2,
+
+          centerY
+
+        );
+
+
+        doc.line(
+
+          centerX,
+
+          centerY -
+            2,
+
+          centerX,
+
+          centerY +
+            2
+
+        );
+
+      }
+
+
+      doc.setFontSize(
+        8
+      );
+
+
+      doc.setTextColor(
+        120,
+        120,
+        120
+      );
+
+
+      doc.text(
+
+        'Folha de calibração — imprima em tamanho real / 100%.',
+
+        5,
+
+        TEMPLATE.pageHeight -
+          5
+
+      );
+
+
+      doc.save(
+
+        'folha-de-calibracao.pdf'
+
+      );
+
+
+      showToast(
+
+        'Folha de calibração gerada.',
+
+        'success'
+
+      );
+
+    }
+
+  );
+
+
+/* ==========================================================================
+   INITIAL RENDER
+   ========================================================================== */
+
+render();
+
+</script>
+
+</body>
+</html>
