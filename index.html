@@ -682,7 +682,8 @@ input[type="text"]:focus {
   position: absolute;
   overflow: visible;
   background: rgba(255,255,255,.55);
-  border: 1px dashed var(--border-strong);
+  --slot-border-width: 1px;
+  border: var(--slot-border-width) dashed var(--border-strong);
   border-radius: 2px;
   cursor: pointer;
   transition:
@@ -988,6 +989,7 @@ input[type="text"]:focus {
    ========================================================================== */
 
 body.print-mode .slot {
+  --slot-border-width: 0px;
   border: none !important;
   outline: none !important;
   background: transparent !important;
@@ -1001,34 +1003,39 @@ body.print-mode .slot-menu {
 }
 
 @media print {
-  @page {
-    size: A4;
-    margin: 0;
+  html, body {
+    width: auto;
+    height: auto;
+    overflow: visible;
+    background: white;
   }
 
-  html, body {
-    width: 210mm;
-    height: 297mm;
-    overflow: hidden;
-    background: white;
+  .app, .body, .main, .canvas-wrap, #sheetOuter {
+    display: contents !important;
   }
 
   body * {
     visibility: hidden !important;
   }
 
-  #sheet, #sheet * {
+  #sheet, #sheet .label-img {
     visibility: visible !important;
   }
 
   #sheet {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 210mm !important;
-    height: 297mm !important;
+    position: fixed;
+    top: 0;
+    left: 0;
     transform: none !important;
-    box-shadow: none !important;
+    box-shadow: none;
+    overflow: hidden;
+  }
+
+  #sheet .slot {
+    --slot-border-width: 0px;
+    border: 0;
+    outline: 0;
+    background: transparent;
   }
 }
 
@@ -1736,6 +1743,11 @@ const TEMPLATE = {
     0
 
 };
+
+const printPageStyle = document.createElement('style');
+printPageStyle.textContent = '@page { size: ' +
+  TEMPLATE.pageWidth + 'mm ' + TEMPLATE.pageHeight + 'mm; margin: 0; }';
+document.head.appendChild(printPageStyle);
 
 const totalSlots =
   TEMPLATE.rows *
@@ -3369,14 +3381,13 @@ function renderSheet() {
             label.imageDataUrl;
 
 
-          img.style.left =
-            dr.x +
-            'mm';
+          const origin = getFinalOrigin(index, slot);
 
-
-          img.style.top =
-            dr.y +
-            'mm';
+          // Absolute image offsets are relative to the slot's padding box.
+          img.style.left = 'calc(' + (origin.x - pos.x + dr.x) +
+            'mm - var(--slot-border-width))';
+          img.style.top = 'calc(' + (origin.y - pos.y + dr.y) +
+            'mm - var(--slot-border-width))';
 
 
           img.style.width =
@@ -5429,35 +5440,9 @@ $('#fileImport')
    PRINT
    ========================================================================== */
 
-$('#btnPrint')
-  .addEventListener(
-
-    'click',
-
-    () => {
-
-      state.mode =
-        'print';
-
-
-      render();
-
-
-      setTimeout(
-
-        () => {
-
-          window.print();
-
-        },
-
-        100
-
-      );
-
-    }
-
-  );
+$('#btnPrint').addEventListener('click', () => {
+  window.print();
+});
 
 
 /* ==========================================================================
